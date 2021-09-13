@@ -1,9 +1,52 @@
-import React from 'react'
+import React from "react";
+import ButtonComponent from "../Components/ButtonComponent";
+import IndeterminateCheckBoxOutlinedIcon from "@material-ui/icons/IndeterminateCheckBoxOutlined";
+import AddBoxOutlinedIcon from "@material-ui/icons/AddBoxOutlined";
+import EditOutlinedIcon from "@material-ui/icons/EditOutlined";
+import DeleteOutlineOutlinedIcon from "@material-ui/icons/DeleteOutlineOutlined";
+import "../Styles/Cart.css";
 
 export default function Cart() {
-    return (
-        <div>
-            Test
+  return (
+    <div className="Cart">
+      <h2>Shopping Cart</h2>
+
+      <div className="Container">
+        <div className="Catalog">
+          <h3>Cart</h3>
+
+          <div className="CatalogCard">
+            <div className="DetailCatalog">
+              <div className="ImgContainer"></div>
+              <h5>Amphetamine</h5>
+
+              <div className="Icon">
+                <IndeterminateCheckBoxOutlinedIcon />
+                {"  "}1{"  "}
+                <AddBoxOutlinedIcon />
+                <div style={{ marginTop: 20 }}>
+                  <DeleteOutlineOutlinedIcon />
+                  Delete
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
-    )
+
+        <div className="Price">
+          <h3>The total amount of price</h3>
+
+          <div className="text">
+            <h6>Temporary Amount</h6>
+            <h6>Delivery Fee</h6>
+
+            <hr />
+          </div>
+
+          <h6>Total price</h6>
+          <ButtonComponent title={"Checkout"} />
+        </div>
+      </div>
+    </div>
+  );
 }
