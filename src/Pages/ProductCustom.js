@@ -27,7 +27,7 @@ export default function ProductCustom() {
 
         {/* <input type="file" /> */}
 
-        <ButtonComponent onCLick={Submit} />
+        <ButtonComponent title={"Submit"} onCLick={Submit} />
       </div>
     </div>
   );
