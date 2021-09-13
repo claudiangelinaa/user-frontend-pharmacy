@@ -17,18 +17,19 @@ export default function NavbarComponents() {
         </Navbar.Brand> */}
         <Container style={{ width: "fit-content" }}>
           <Nav>
-            <Nav.Link className="LinkRoute" to="/">
-              Home
+            <Nav.Link>
+              <Link to="/" className="LinkRoute">
+                Home
+              </Link>
             </Nav.Link>
-            <Nav.Link>About</Nav.Link>
             <NavDropdown title="Products" id="navbarScrollingDropdown">
               <NavDropdown.Item>
-                <Link className="LinkRoute" to="/Products">
+                <Link className="LinkRoute" to="/ProductCustom">
                   Product Custom
                 </Link>
               </NavDropdown.Item>
               <NavDropdown.Item>
-                <Link className="LinkRoute" to="/ProductCustom">
+                <Link className="LinkRoute" to="/Products">
                   Product
                 </Link>
               </NavDropdown.Item>
@@ -43,7 +44,9 @@ export default function NavbarComponents() {
 
         <div style={{ marginRight: 20 }}>
           <Badge badgeContent={4} color="error">
-            <ShoppingCartOutlinedIcon />
+            <Link className="LinkRoute" to="/Cart">
+              <ShoppingCartOutlinedIcon />
+            </Link>
           </Badge>
         </div>
 
