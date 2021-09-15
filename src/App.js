@@ -6,6 +6,8 @@ import History from "./Pages/History";
 import Homepage from "./Pages/Homepage";
 import ProductsPage from "./Pages/ProductsPage";
 import ProductCustom from "./Pages/ProductCustom";
+import Login from "./Pages/Login"
+import Register from "./Pages/Register"
 
 function App() {
   return (
@@ -25,6 +27,12 @@ function App() {
           </Route>
           <Route exact path="/History">
             <History />
+          </Route>
+          <Route exact path="/Login">
+            <Login />
+          </Route>
+          <Route exact path="/Register">
+            <Register />
           </Route>
           <Route exact path="/Cart">
             <Cart />

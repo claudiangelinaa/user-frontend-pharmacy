@@ -43,6 +43,13 @@ export default function NavbarComponents() {
         </Container>
 
         <div style={{ marginRight: 20 }}>
+
+            <Link className="LinkRoute" to="/Login">
+              Login
+            </Link>
+        </div>
+        
+        <div style={{ marginRight: 20 }}>
           <Badge badgeContent={4} color="error">
             <Link className="LinkRoute" to="/Cart">
               <ShoppingCartOutlinedIcon />
