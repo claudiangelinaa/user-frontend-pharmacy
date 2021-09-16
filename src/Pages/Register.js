@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -14,6 +14,8 @@ import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import { InputLabel, MenuItem, Select } from '@material-ui/core';
 import { doRegister } from '../Store/Actions/authAction';
+import { useDispatch } from 'react-redux';
+import axios from 'axios'
 
 function Copyright() {
   return (
@@ -58,12 +60,28 @@ const useStyles = makeStyles((theme) => ({
 
 export default function SignUp() {
   const classes = useStyles();
+  const [nama, setNama] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [alamat, setAlamat] = useState("");
+  const [nomor_telepon, setNomorTelepon] = useState("");
+  const [gender, setGender] = useState("");
+  const [umur, setUmur] = useState(0);
+  const dispatch = useDispatch();
   
-  // handleRegister = () =>{
-  //   const params = {email, password}
-  //   dispatch(doRegister(params))
-  // }
-
+  const handleRegisterClick = (e) =>{
+    e.preventDefault();
+    const params = {nama, email, password, alamat, nomor_telepon, gender, umur};
+    // dispatch(doRegister(params));
+    axios.post(`http://localhost:5002/users/register`, params )
+      .then(res => {
+        console.log(res.data)
+        alert(`Berhasil Register`)
+      })
+      .catch(err=>{
+        console.log(err)
+      })
+    }
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
@@ -74,7 +92,7 @@ export default function SignUp() {
         <Typography component="h1" variant="h5">
           Sign up
         </Typography>
-        <form className={classes.form} noValidate>
+        <form className={classes.form} noValidate onSubmit={handleRegisterClick}>
           <Grid container spacing={2}>
             <Grid item xs={12}>
               <TextField
@@ -86,6 +104,8 @@ export default function SignUp() {
                 id="Nama"
                 label="Nama"
                 autoFocus
+                value={nama}
+                onChange={e => setNama(e.target.value)}
               />
             </Grid>
             
@@ -98,6 +118,8 @@ export default function SignUp() {
                 label="Email Address"
                 name="email"
                 autoComplete="email"
+                value={email}
+                onChange={e => setEmail(e.target.value)}
               />
             </Grid>
             <Grid item xs={12}>
@@ -110,6 +132,8 @@ export default function SignUp() {
                 type="password"
                 id="password"
                 autoComplete="current-password"
+                value={password}
+                onChange={e => setPassword(e.target.value)}
               />
             </Grid>
 
@@ -123,6 +147,8 @@ export default function SignUp() {
                 type="text"
                 id="Alamat"
                 autoComplete="Alamat"
+                value={alamat}
+                onChange={e => setAlamat(e.target.value)}
               />
             </Grid>
 
@@ -136,6 +162,8 @@ export default function SignUp() {
                 type="text"
                 id="Nomor_Telepon"
                 autoComplete="Nomor_Telepon"
+                value={nomor_telepon}
+                onChange={e => setNomorTelepon(e.target.value)}
               />
             </Grid>
 
@@ -211,7 +239,6 @@ export default function SignUp() {
             variant="contained"
             color="primary"
             className={classes.submit}
-            onClick={this.handleRegister}
           >
             Sign Up
           </Button>
