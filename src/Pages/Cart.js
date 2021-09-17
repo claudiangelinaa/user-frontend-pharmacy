@@ -1,12 +1,35 @@
-import React from "react";
+import React, { useState } from "react";
 import ButtonComponent from "../Components/ButtonComponent";
 import IndeterminateCheckBoxOutlinedIcon from "@material-ui/icons/IndeterminateCheckBoxOutlined";
 import AddBoxOutlinedIcon from "@material-ui/icons/AddBoxOutlined";
 import EditOutlinedIcon from "@material-ui/icons/EditOutlined";
 import DeleteOutlineOutlinedIcon from "@material-ui/icons/DeleteOutlineOutlined";
 import "../Styles/Cart.css";
+import axios from 'axios'
+import { useEffect } from "react";
 
 export default function Cart() {
+  const [productsDetail, setProductsDetail] = useState([])
+  // useEffect(() => {
+  //   axios.get(`http://localhost:5002/obatjadi/${2}`)
+  //   .then((res)=>{
+  //     console.log(res.data.result)
+  //     setProductsDetail(res.data.result)
+  //   })
+  //   .catch(err=>{
+  //     console.log(err)
+  //   })
+  // }, [])
+  useEffect(()=>{
+    axios.get(`http://localhost:5002/obatjadi/${2}`)
+    .then((res)=>{
+      console.log(res.data.result)
+      setProductsDetail(res.data.result)
+    })
+    .catch(err=>{
+      console.log(err)
+    })
+  },[])
   return (
     <div className="Cart">
       <h2>Shopping Cart</h2>

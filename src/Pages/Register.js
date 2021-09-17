@@ -72,15 +72,15 @@ export default function SignUp() {
   const handleRegisterClick = (e) =>{
     e.preventDefault();
     const params = {nama, email, password, alamat, nomor_telepon, gender, umur};
-    // dispatch(doRegister(params));
-    axios.post(`http://localhost:5002/users/register`, params )
-      .then(res => {
-        console.log(res.data)
-        alert(`Berhasil Register`)
-      })
-      .catch(err=>{
-        console.log(err)
-      })
+    dispatch(doRegister(params));
+    // axios.post(`http://localhost:5002/users/register`, params )
+    //   .then(res => {
+    //     console.log(res.data)
+    //     alert(`Berhasil Register`)
+    //   })
+    //   .catch(err=>{
+    //     console.log(err)
+    //   })
     }
   return (
     <Container component="main" maxWidth="xs">

@@ -3,9 +3,10 @@ import thunk from 'redux-thunk';
 import { composeWithDevTools } from 'redux-devtools-extension';
 
 import authReducer from './Reducers/authReducer'
+import productsReducer from './Reducers/productsReducer';
 
 const Store = createStore(
-  combineReducers({authReducer}),
+  combineReducers({authReducer, productsReducer}),
   composeWithDevTools(applyMiddleware(thunk))
 );
 
