@@ -5,8 +5,23 @@ import NotificationsNoneOutlinedIcon from "@material-ui/icons/NotificationsNoneO
 import Badge from "@material-ui/core/Badge";
 import "../Styles/Navbar.css";
 import { Link } from "react-router-dom";
+import { useEffect } from "react";
+import axios from 'axios'
+import { useDispatch, useSelector } from "react-redux";
+import { checkLogin, doLogout } from '../Store/Actions/authAction';
 
 export default function NavbarComponents() {
+  const dispatch = useDispatch();
+  const auth = useSelector(state => state.authReducer);
+
+  useEffect(()=>{
+    dispatch(checkLogin())
+  }, [])
+
+  const handleLogoutClick = () => {
+    dispatch(doLogout());
+  }
+
   return (
     <div>
       <Navbar bg="light" variant="light">
@@ -43,10 +58,21 @@ export default function NavbarComponents() {
         </Container>
 
         <div style={{ marginRight: 20 }}>
-
-            <Link className="LinkRoute" to="/Login">
-              Login
-            </Link>
+            {
+              // console.log("auth:", auth)
+              auth.nama ? (
+                <>
+                  {auth.nama}
+                  <Button variant="light" onClick={handleLogoutClick}>
+                  Logout
+                </Button>
+                </>
+              ) : (
+                <Link className="LinkRoute" to="/Login">
+                  Login
+                </Link>
+              )
+            }
         </div>
         
         <div style={{ marginRight: 20 }}>

@@ -1,6 +1,7 @@
 const initialState = {
     id: '',
-    email: '',
+    nama : '',
+    role: '',
     isLogin: false,
   }
   
@@ -11,7 +12,8 @@ const initialState = {
         return {
           ...state,
           id: action.payload.id,
-          email: action.payload.email,
+          nama: action.payload.nama,
+          role: action.payload.role,
           isLogin: action.payload.isLogin,
         };
       case 'LOGOUT':
