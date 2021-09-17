@@ -61,17 +61,17 @@ export default function SignIn() {
   const handleLoginClick = (e) => {
     e.preventDefault();
     console.log("login:", email, password)
-    // dispatch(doLogin({email, password}))
-    axios.post(`http://localhost:5002/users/login`, {email: email,password: password})
-    .then((res)=>{
-      console.log(res)
-      localStorage.setItem('access_token', res.data.token)
+    dispatch(doLogin({email, password}))
+    // axios.post(`http://localhost:5002/users/login`, {email: email,password: password})
+    // .then((res)=>{
+    //   console.log(res)
+    //   localStorage.setItem('access_token', res.data.token)
       alert(`Berhasil Login`)
       history.push("/")
-    })
-    .catch(err=>{
-      console.log(err)
-    })
+    // })
+    // .catch(err=>{
+    //   console.log(err)
+    // })
   }
 
   return (
