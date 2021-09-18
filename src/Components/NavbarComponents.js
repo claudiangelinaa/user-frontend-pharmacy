@@ -54,18 +54,25 @@ export default function NavbarComponents() {
                 History
               </Link>
             </Nav.Link>
-            <Nav.Link>
-              <Link className="LinkRoute" to="/UserProfile">
-                My Profile
-              </Link>
-            </Nav.Link>
+            {
+              auth.isLogin ? (
+                <Nav.Link>
+                  <Link className="LinkRoute" to="/UserProfile">
+                    My Profile
+                  </Link>
+                </Nav.Link>
+              ) : (
+                <>
+                </>
+              )
+            }
           </Nav>
         </Container>
 
         <div style={{ marginRight: 20 }}>
             {
               // console.log("auth:", auth)
-              auth.nama ? (
+              auth.isLogin ? (
                 <>
                   {auth.nama}
                   <Button variant="light" onClick={handleLogoutClick}>

@@ -17,6 +17,7 @@ import { checkLogin, doRegister } from '../Store/Actions/authAction';
 import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios'
 import { useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
 
 function Copyright() {
   return (
@@ -61,26 +62,29 @@ const useStyles = makeStyles((theme) => ({
 
 export default function UserProfile() {
   const user = useSelector(state => state.authReducer)
+  const history = useHistory();
 
   useEffect(()=>{
-    if(user){
-      dispatch(checkLogin())
+    if(!user.isLogin){
+      history.push("/");
+    } else {
+      axios.get(`http://localhost:5002/users/${user.id}`)
+      .then((res)=>{
+        console.log(res.data.result[0]);
+        setNama(res.data.result[0].nama)
+        setEmail(res.data.result[0].email)
+        setPassword(res.data.result[0].password)
+        setNomorTelepon(res.data.result[0].nomor_telepon)
+        setGender(res.data.result[0].gender)
+        setAlamat(res.data.result[0].alamat)
+        setUmur(res.data.result[0].umur)
+      })
+      .catch(err=>{
+        console.log(err);
+      })
     }
-    axios.get(`http://localhost:5002/users/${user.id}`)
-    .then((res)=>{
-      console.log(res.data.result[0]);
-      setNama(res.data.result[0].nama)
-      setEmail(res.data.result[0].email)
-      setPassword(res.data.result[0].password)
-      setNomorTelepon(res.data.result[0].nomor_telepon)
-      setGender(res.data.result[0].gender)
-      setAlamat(res.data.result[0].alamat)
-      setUmur(res.data.result[0].umur)
-    })
-    .catch(err=>{
-      console.log(err);
-    })
   },[])
+
   const classes = useStyles();
   
   const [nama, setNama] = useState("");
