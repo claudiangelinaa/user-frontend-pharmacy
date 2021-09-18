@@ -54,6 +54,11 @@ export default function NavbarComponents() {
                 History
               </Link>
             </Nav.Link>
+            <Nav.Link>
+              <Link className="LinkRoute" to="/UserProfile">
+                My Profile
+              </Link>
+            </Nav.Link>
           </Nav>
         </Container>
 
