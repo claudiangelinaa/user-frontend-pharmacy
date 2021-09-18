@@ -4,7 +4,7 @@ import ShoppingCartOutlinedIcon from "@material-ui/icons/ShoppingCartOutlined";
 import NotificationsNoneOutlinedIcon from "@material-ui/icons/NotificationsNoneOutlined";
 import Badge from "@material-ui/core/Badge";
 import "../Styles/Navbar.css";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { useEffect } from "react";
 import axios from 'axios'
 import { useDispatch, useSelector } from "react-redux";
@@ -13,6 +13,7 @@ import { checkLogin, doLogout } from '../Store/Actions/authAction';
 export default function NavbarComponents() {
   const dispatch = useDispatch();
   const auth = useSelector(state => state.authReducer);
+  const history = useHistory();
 
   useEffect(()=>{
     dispatch(checkLogin())
@@ -20,6 +21,7 @@ export default function NavbarComponents() {
 
   const handleLogoutClick = () => {
     dispatch(doLogout());
+    history.push("/");
   }
 
   return (
