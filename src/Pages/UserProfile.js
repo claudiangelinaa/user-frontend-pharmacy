@@ -85,6 +85,24 @@ export default function UserProfile() {
     }
   },[])
 
+  const handleSave = () =>{
+    let updatedData = {
+      nama,
+      email,
+      alamat,
+      nomor_telepon,
+      gender,
+      umur
+    }
+    axios.post(`http://localhost:5002/users/${user.id}`, updatedData)
+    .then((res)=>{
+      alert(`Data berhasil disimpan`)
+      history.push("/")
+    })
+    .catch(err=>{
+      console.log(err);
+    })
+  }
   const classes = useStyles();
   
   const [nama, setNama] = useState("");
@@ -96,9 +114,7 @@ export default function UserProfile() {
   const [umur, setUmur] = useState(0);
   const dispatch = useDispatch();
   
-  const handleSaveClick = () =>{
-    alert(`Save`)
-  }
+  
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
@@ -185,7 +201,7 @@ export default function UserProfile() {
                     id: 'outlined-gender-native-simple',
                 }}
             >
-                <option aria-label="None" value="" />
+                <option aria-label="None" value="">Gender </option>
                 <option value='Pria'>Pria</option>
                 <option value='Wanita'>Wanita</option>
             </Select>
@@ -202,7 +218,7 @@ export default function UserProfile() {
                     id: 'filled-age-native-simple',
                 }}
             >
-                <option aria-label="None" value="" />
+                <option aria-label="None" value="">Umur</option> 
                 <option value={10}>10</option>
                 <option value={20}>11</option>
                 <option value={30}>12</option>
@@ -240,7 +256,7 @@ export default function UserProfile() {
             variant="contained"
             color="primary"
             className={classes.submit}
-            onClick={()=>handleSaveClick()}
+            onClick={()=>handleSave()}
           >
             Save Changes
           </Button>
