@@ -3,7 +3,7 @@ import { Nav, Navbar, Container, NavDropdown, Button } from "react-bootstrap";
 import ShoppingCartOutlinedIcon from "@material-ui/icons/ShoppingCartOutlined";
 import NotificationsNoneOutlinedIcon from "@material-ui/icons/NotificationsNoneOutlined";
 import Badge from "@material-ui/core/Badge";
-import "../Styles/Navbar.css";
+import "../Styles/Components/Navbar.css";
 import { Link } from "react-router-dom";
 
 export default function NavbarComponents() {

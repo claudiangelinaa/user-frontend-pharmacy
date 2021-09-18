@@ -1,12 +1,26 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import ButtonComponent from "../Components/ButtonComponent";
 import IndeterminateCheckBoxOutlinedIcon from "@material-ui/icons/IndeterminateCheckBoxOutlined";
 import AddBoxOutlinedIcon from "@material-ui/icons/AddBoxOutlined";
 import EditOutlinedIcon from "@material-ui/icons/EditOutlined";
 import DeleteOutlineOutlinedIcon from "@material-ui/icons/DeleteOutlineOutlined";
 import "../Styles/Cart.css";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchProduct } from "../Store/Actions/productsAction";
 
 export default function Cart() {
+  const dispatch = useDispatch()
+  const { product } = useSelector(state => state.productsReducer)
+  const [cartProduct, setcartProduct] = useState([])
+
+  function fetchCartProduct(){
+    setcartProduct(JSON.parse(localStorage.getItem('cart')))
+  }
+
+  useEffect(() => {
+    fetchCartProduct()
+  }, [])
+
   return (
     <div className="Cart">
       <h2>Shopping Cart</h2>

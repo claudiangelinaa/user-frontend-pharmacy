@@ -1,9 +1,14 @@
-import React from 'react'
+import React from "react";
+import TableComponent from "../Components/TableComponent";
+import "../Styles/History.css";
 
 export default function History() {
-    return (
-        <div>
-            Test History
-        </div>
-    )
+  return (
+    <div className="History">
+    <h2>History Transaction</h2>
+      <div className="TableHistory">
+        <TableComponent />
+      </div>
+    </div>
+  );
 }

@@ -1,45 +1,45 @@
-import axios from 'axios';
-
-// import { url } from '../../../urlConfig';
+import axios from "axios";
 
 export function doLogin(params) {
-  return async dispatch => {
+  return async (dispatch) => {
     try {
-      // console.log(params.email, params.password)
-      dispatch({ type: 'LOGIN', payload: { isLoading: true } })
-      const { data } = await axios.post(`http://localhost:5002/users/login`, params);
-      // console.log(data.token)
+      dispatch({ type: "LOGIN", payload: { isLoading: true } });
+      const { data } = await axios.post(
+        `http://localhost:5002/users/login`,
+        params
+      );
 
       dispatch({
-        type: 'LOGIN',
+        type: "LOGIN",
         payload: {
           ...data,
           isLogin: true,
-          isLoading: false
-        }
-      })
-      localStorage.setItem('access_token', data.token)
+          isLoading: false,
+        },
+      });
+      localStorage.setItem("access_token", data.token);
     } catch (err) {
-      console.log(err)
+      console.log(err);
     }
-  }
+  };
 }
 
 export function doRegister(data) {
   return (dispatch) => {
-    axios.post(`http://localhost:5002/users/register`, data)
-      .then(res => {
-        console.log("register:", res)
+    axios
+      .post(`http://localhost:5002/users/register`, data)
+      .then((res) => {
+        console.log("register:", res);
         dispatch({
-          type: 'LOGIN',
+          type: "LOGIN",
           payload: {
             ...res.data,
             isLogin: true,
-          }
-        })
+          },
+        });
       })
-      .catch(err => console.log(err));
-  }
+      .catch((err) => console.log(err));
+  };
 }
 
 // export function doLogout() {
