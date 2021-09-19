@@ -13,6 +13,7 @@ import { convertToRupiah } from "../helpers/convertToRupiah";
 import { useHistory } from "react-router";
 import { useDispatch } from "react-redux";
 import { fetchProduct } from "../Store/Actions/productsAction";
+import Cookies from 'js-cookie'
 
 const useStyles = makeStyles({
   root: {
@@ -38,7 +39,7 @@ export default function CardComponent(props) {
       ...prevState,
       product: prevState.product.concat(props),
     }));
-    localStorage.setItem("cart", JSON.stringify(cart));
+    Cookies.set("cart", JSON.stringify(cart.product), { expires: 14 } )
   }
 
   // function getCartTotal(){

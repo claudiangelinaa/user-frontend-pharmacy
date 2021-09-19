@@ -7,6 +7,7 @@ import DeleteOutlineOutlinedIcon from "@material-ui/icons/DeleteOutlineOutlined"
 import "../Styles/Cart.css";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchProduct } from "../Store/Actions/productsAction";
+import Cookies from 'js-cookie'
 
 export default function Cart() {
   const dispatch = useDispatch()
@@ -14,7 +15,7 @@ export default function Cart() {
   const [cartProduct, setcartProduct] = useState([])
 
   function fetchCartProduct(){
-    setcartProduct(JSON.parse(localStorage.getItem('cart')))
+    setcartProduct(Cookies.get('cart'))
   }
 
   useEffect(() => {
@@ -24,6 +25,7 @@ export default function Cart() {
   return (
     <div className="Cart">
       <h2>Shopping Cart</h2>
+      {console.log(cartProduct)}
 
       <div className="Container">
         <div className="Catalog">
