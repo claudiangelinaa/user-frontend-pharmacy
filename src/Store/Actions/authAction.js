@@ -1,42 +1,28 @@
 import axios from 'axios';
 
-export function doLogin(params) {
+export function doLogin(data) {
   return async dispatch => {
-    try {
-      // console.log(params.email, params.password)
-      dispatch({ type: 'LOGIN', payload: { isLoading: true } })
-      const { data } = await axios.post(`http://localhost:5002/users/login`, params);
-      // console.log(data.token)
-
-      dispatch({
-        type: 'LOGIN',
-        payload: {
-          ...data,
-          isLogin: true,
-          isLoading: false
-        }
-      })
-      localStorage.setItem('access_token', data.token)
-    } catch (err) {
-      console.log(err)
-    }
+    // console.log(data)
+    dispatch({
+      type: 'LOGIN',
+      payload: {
+        ...data,
+        isLogin: true,
+        isLoading: false
+      }
+    })
   }
 }
 
 export function doRegister(data) {
   return (dispatch) => {
-    axios.post(`http://localhost:5002/users/register`, data)
-      .then(res => {
-        console.log("register:", res)
-        dispatch({
-          type: 'LOGIN',
-          payload: {
-            ...res.data,
-            isLogin: true,
-          }
-        })
-      })
-      .catch(err => console.log(err));
+    dispatch({
+      type: 'LOGIN',
+      payload: {
+        ...data,
+        isLogin: true,
+      }
+    })
   }
 }
 
