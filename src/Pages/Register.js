@@ -16,6 +16,7 @@ import { InputLabel, MenuItem, Select } from '@material-ui/core';
 import { doRegister } from '../Store/Actions/authAction';
 import { useDispatch } from 'react-redux';
 import axios from 'axios'
+import { useHistory } from 'react-router';
 
 function Copyright() {
   return (
@@ -68,19 +69,26 @@ export default function SignUp() {
   const [gender, setGender] = useState("");
   const [umur, setUmur] = useState(0);
   const dispatch = useDispatch();
+  const history = useHistory();
   
   const handleRegisterClick = (e) =>{
     e.preventDefault();
     const params = {nama, email, password, alamat, nomor_telepon, gender, umur};
-    dispatch(doRegister(params));
-    // axios.post(`http://localhost:5002/users/register`, params )
-    //   .then(res => {
-    //     console.log(res.data)
-    //     alert(`Berhasil Register`)
-    //   })
-    //   .catch(err=>{
-    //     console.log(err)
-    //   })
+    axios.post(`http://localhost:5002/users/register`, params )
+    .then(res => {
+      console.log(res.data)
+      if(res.data.status !== "error") {
+        dispatch(doRegister(res.data));
+        alert(`Berhasil Register`)
+        localStorage.setItem('access_token', res.data.token)
+        history.push("/")
+      } else {
+        alert("Gagal register")
+      }
+    })
+    .catch(err=>{
+      console.log(err)
+    })
     }
   return (
     <Container component="main" maxWidth="xs">
