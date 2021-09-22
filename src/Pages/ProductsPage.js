@@ -7,24 +7,24 @@ import "../Styles/Products.css";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { fetchProducts } from "../Store/Actions/productsAction";
-import LoadingComponent from "../Components/LoadingComponent"
+import LoadingComponent from "../Components/LoadingComponent";
 
 export default function ProductsPage() {
   // const [products, setProducts] = useState([]);
-  const { products, isLoading } = useSelector(state => state.productsReducer)
-  const dispatch = useDispatch()
+  const { products, isLoading } = useSelector((state) => state.productsReducer);
+  const dispatch = useDispatch();
   const history = useHistory();
 
   useEffect(() => {
-    dispatch(fetchProducts())
-  }, [])
+    dispatch(fetchProducts());
+  }, []);
 
-  if(isLoading){
+  if (isLoading) {
     return (
       <>
-      <LoadingComponent />
+        <LoadingComponent />
       </>
-    )
+    );
   }
 
   return (
@@ -34,16 +34,18 @@ export default function ProductsPage() {
         <SearchBarComponent />
       </div>
       <div className="Products">
-        {products.map(val=>{
+        {products.map((val) => {
           return (
             <CardComponent
-              id={val.id} 
+              id={val.id}
               foto_produk={val.foto_produk}
               nama={val.nama}
               deskripsi={val.deskripsi}
               harga={val.harga}
+              stock={val.stock}
             />
-          )})}
+          );
+        })}
       </div>
     </div>
   );

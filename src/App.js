@@ -6,9 +6,10 @@ import History from "./Pages/History";
 import Homepage from "./Pages/Homepage";
 import ProductsPage from "./Pages/ProductsPage";
 import ProductCustom from "./Pages/ProductCustom";
-import Login from "./Pages/Login"
-import Register from "./Pages/Register"
+import Login from "./Pages/Login";
+import Register from "./Pages/Register";
 import ResetPassword from "./Pages/ResetPassword";
+import Checkout from "./Pages/Checkout";
 
 function App() {
   return (
@@ -37,6 +38,9 @@ function App() {
           </Route>
           <Route exact path="/Cart">
             <Cart />
+          </Route>
+          <Route exact path="/Checkout">
+            <Checkout />
           </Route>
           <Route exact path="/reset-password">
             <ResetPassword />

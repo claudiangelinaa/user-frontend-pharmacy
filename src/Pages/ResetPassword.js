@@ -15,7 +15,6 @@ import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
-import jwt_decode from "jwt-decode";
 import { useHistory } from "react-router";
 
 const useStyles = makeStyles((theme) => ({
@@ -39,15 +38,13 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function ResetPassword() {
-  const history = useHistory()
+  const history = useHistory();
   const search = window.location.search;
   const params = new URLSearchParams(search);
   const token = params.get("token");
-  //   const queryString = require("query-string");
+  const classes = useStyles();
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const classes = useStyles();
-  //   const decodedToken = jwt_decode(token);
 
   function updatePassword() {
     const data = {
@@ -60,7 +57,7 @@ export default function ResetPassword() {
       .put(`${url}/users/reset-password`, data)
       .then((res) => {
         alert(res.data.message);
-        history.push("/Login")
+        history.push("/Login");
       })
       .catch((err) => {
         alert(err);

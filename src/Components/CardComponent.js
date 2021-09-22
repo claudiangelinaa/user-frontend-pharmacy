@@ -13,7 +13,6 @@ import { convertToRupiah } from "../helpers/convertToRupiah";
 import { useHistory } from "react-router";
 import { useDispatch } from "react-redux";
 import { fetchProduct } from "../Store/Actions/productsAction";
-import Cookies from 'js-cookie'
 
 const useStyles = makeStyles({
   root: {
@@ -30,33 +29,28 @@ const useStyles = makeStyles({
 export default function CardComponent(props) {
   const history = useHistory();
   const classes = useStyles();
-  const [cart, setCart] = useState({
-    product: [],
-  });
-
-  function productToCart() {
-    setCart((prevState) => ({
-      ...prevState,
-      product: prevState.product.concat(props),
-    }));
-    Cookies.set("cart", JSON.stringify(cart.product), { expires: 14 } )
-  }
 
   // function getCartTotal(){
   //   return cart.reduce((sum, {quantity}) => sum + quantity, 0)
   // }
 
   function onSubmit() {
-    productToCart();
+    let data = {
+      id: props.id,
+      nama: props.nama,
+      harga: props.harga,
+      foto_produk: props.foto_produk,
+      stock: props.stock,
+      deskripsi: props.deskripsi,
+      quantity: 1,
+    };
+    let getData = JSON.parse(localStorage.getItem("cart")) || [];
+    getData.push(data);
+    localStorage.setItem("cart", JSON.stringify(getData));
   }
-
-  useEffect(() => {
-    productToCart();
-  }, []);
 
   return (
     <Card className={classes.root}>
-      {console.log(props)}
       <CardActionArea>
         <CardMedia className={classes.media} image={props.foto_produk} />
         <CardContent>

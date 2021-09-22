@@ -85,7 +85,7 @@ export default function SignIn() {
         password: password,
       })
       .then((res) => {
-        console.log(res);
+        console.log(res)
         localStorage.setItem("access_token", res.data.token);
         alert(`Berhasil Login`);
         history.push("/");

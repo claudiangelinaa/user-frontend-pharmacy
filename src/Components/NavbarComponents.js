@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Nav, Navbar, Container, NavDropdown, Button } from "react-bootstrap";
 import ShoppingCartOutlinedIcon from "@material-ui/icons/ShoppingCartOutlined";
 import NotificationsNoneOutlinedIcon from "@material-ui/icons/NotificationsNoneOutlined";
@@ -7,6 +7,11 @@ import "../Styles/Components/Navbar.css";
 import { Link } from "react-router-dom";
 
 export default function NavbarComponents() {
+  // const [cart, setcart] = useState(JSON.parse(localStorage.getItem("cart")))
+
+  // useEffect(() => {
+  // }, [cart])
+
   return (
     <div>
       <Navbar bg="light" variant="light">
@@ -43,12 +48,11 @@ export default function NavbarComponents() {
         </Container>
 
         <div style={{ marginRight: 20 }}>
-
-            <Link className="LinkRoute" to="/Login">
-              Login
-            </Link>
+          <Link className="LinkRoute" to="/Login">
+            Login
+          </Link>
         </div>
-        
+
         <div style={{ marginRight: 20 }}>
           <Badge badgeContent={4} color="error">
             <Link className="LinkRoute" to="/Cart">

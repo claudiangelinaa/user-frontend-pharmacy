@@ -1,4 +1,8 @@
-import { LOADING_PRODUCTS, LOAD_PRODUCTS, LOAD_DETAIL_PRODUCT } from "../Actions/actionType";
+import {
+  LOADING_PRODUCTS,
+  LOAD_PRODUCTS,
+  LOAD_DETAIL_PRODUCT,
+} from "../Actions/actionType";
 import axios from "axios";
 import { url } from "../../helpers/urlConfig";
 
@@ -22,13 +26,6 @@ export function loadProduct(data) {
     payload: data,
   };
 }
-
-// export function loadProduct(data) {
-//   return {
-//     type: LOADING_DETAIL_PRODUCT,
-//     payload: data,
-//   };
-// }
 
 export function fetchProducts() {
   return (dispatch) => {
