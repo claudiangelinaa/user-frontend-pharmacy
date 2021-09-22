@@ -51,7 +51,31 @@ export default function ProductsPage() {
   }, []);
 
   const products = useSelector((state) => state.productsReducer);
+  const [productsView, setProductsView] = useState(products);
+  const [productsFilter, setProductsFilter] = useState('');
+  const [productsSort, setProductsSort] = useState('');
   const [dialog, setDialog] = useState(false);
+
+  const handleFilter = () => {
+    let newProductsArr = products.filter((product) => product.kategori === productsFilter)
+    console.log(newProductsArr)
+    setProductsView(newProductsArr)
+    setDialog(false)
+  }
+
+  const handleSort = () => {
+    // console.log(productsSort)
+    // console.log("products:", products)
+    setProductsView(products)
+    // console.log("productsView:", productsView)
+    if(productsSort == "nama") {
+      productsView.sort((a,b) => (a.nama > b.nama) ? 1 : ((b.nama > a.nama) ? -1 : 0));
+    } else if(productsSort == "harga") {
+      productsView.sort((a,b) => (a.harga > b.harga) ? 1 : ((b.harga > a.harga) ? -1 : 0));
+    }
+    // console.log(productsView.sort((a,b) => (a.nama > b.nama) ? 1 : ((b.nama > a.nama) ? -1 : 0)))
+    setDialog(false)
+  }
 
   return (
     <div className="ProductPage">
@@ -62,78 +86,100 @@ export default function ProductsPage() {
       </div>
 
       <div>
-      <Button variant="outlined" onClick={()=>setDialog(true)}>
-        Filter
-      </Button>
-      <Dialog open={dialog} onClose={()=>setDialog(false)}>
-        <DialogTitle>FILTER</DialogTitle>
-        <Select
-                native
-                variant="outlined"
-                value="Category"
-                inputProps={{
-                    name: 'Category',
-                    id: 'filled-age-native-simple',
-                }}
-            >
-              <option aria-label="CATEGORY" value="CATEGORY" >Category</option>
-                <option >BATUK DAN FLU</option>
-                <option value={20}>DEMAM</option>
-                <option value={30}>ANTI NYERI</option>
-                <option value={20}>ANTI INFLAMASI</option>
-                <option value={30}>ALERGI</option>
-                <option value={30}>HIPERTENSI</option>
-                <option value={20}>SALURAN KEMIH</option>
-              
-            </Select>
-            
-        
-        <DialogActions>
-          <Button onClick={()=>setDialog(false)}>Cancel</Button>
-          <Button >Submit</Button>
-        </DialogActions>
-      </Dialog>
-    </div>
+        <Button variant="outlined" onClick={()=>setDialog(true)}>
+          Filter
+        </Button>
+        <Dialog open={dialog} onClose={()=>setDialog(false)}>
+          <DialogTitle>FILTER</DialogTitle>
+          <Select
+            native
+            variant="outlined"
+            value={productsFilter}
+            inputProps={{
+                name: 'Category',
+                id: 'filled-age-native-simple',
+            }}
+            onChange={(e) => setProductsFilter(e.target.value)}
+          >
+            <option aria-label="CATEGORY" value="CATEGORY" >Category</option>
+            <option value={'Generik'}>GENERIK</option>
+            <option value={'Paten'}>PATEN</option>
+          </Select>
+          
+          <DialogActions>
+            <Button onClick={()=>setDialog(false)}>Cancel</Button>
+            <Button onClick={()=>handleFilter()}>Submit</Button>
+          </DialogActions>
+        </Dialog>
+      </div>
+
+      <div>
+        <Button variant="outlined" onClick={()=>setDialog(true)}>
+          Sort
+        </Button>
+        <Dialog open={dialog} onClose={()=>setDialog(false)}>
+          <DialogTitle>SORT</DialogTitle>
+          <Select
+            native
+            variant="outlined"
+            value={productsSort}
+            inputProps={{
+                name: 'Category',
+                id: 'filled-age-native-simple',
+            }}
+            onChange={(e) => setProductsSort(e.target.value)}
+          >
+            <option aria-label="SORT BY" value="default">Sort by</option>
+            <option value={'nama'}>NAMA</option>
+            <option value={'harga'}>HARGA</option>
+          </Select>
+          
+          <DialogActions>
+            <Button onClick={()=>setDialog(false)}>Cancel</Button>
+            <Button onClick={()=>handleSort()}>Submit</Button>
+          </DialogActions>
+        </Dialog>
+      </div>
 
       <div style={{ display: "flex", flexDirection: "column" }}>
-        {products.map((value) => {
+        {productsView.map((product) => {
           return (
-            <div className="Products ProductPage ">
+            <div className="Products ProductPage " key={product.id}>
               <Card className={classes.root}>
                 <CardActionArea>
                   <CardMedia
                     className={classes.media}
-                    image={value.foto_produk}
+                    image={product.foto_produk}
                   />
                   <CardContent>
-                    <Typography gutterBottom variant="h5" component="h2">
-                      {value.name}
+                    <Typography gutterBottom variant="body2" component="">
+                      {product.nama}
                     </Typography>
-                    <Typography
+                    {/* <Typography
                       variant="body2"
                       color="textSecondary"
                       component="p"
                     >
-                      {value.deskripsi}
-                    </Typography>
+                      {product.deskripsi}
+                    </Typography> */}
                   </CardContent>
 
                   <CardContent>
-                    <strong>Rp. {value.harga}</strong>
+                    <strong>Rp. {product.harga}</strong>
                   </CardContent>
                   <Typography
                     variant="body2"
                     color="textSecondary"
                     component="p"
                   >
-                    Stok : {value.stok}
+                    Stok : {product.stok}
                   </Typography>
                   <Typography
                     variant="body2"
                     color="textSecondary"
                     component="p"
                   >
-                    Kategori : {value.kategori}
+                    Kategori : {product.kategori}
                   </Typography>
                 </CardActionArea>
                 <CardActions>
