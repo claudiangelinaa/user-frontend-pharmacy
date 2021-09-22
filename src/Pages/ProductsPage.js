@@ -53,28 +53,38 @@ export default function ProductsPage() {
   const products = useSelector((state) => state.productsReducer);
   const [productsView, setProductsView] = useState(products);
   const [productsFilter, setProductsFilter] = useState('');
-  const [productsSort, setProductsSort] = useState('');
+  const [productsSortBy, setProductsSortBy] = useState('');
+  const [search, setSearch] = useState('');
   const [dialog, setDialog] = useState(false);
 
   const handleFilter = () => {
     let newProductsArr = products.filter((product) => product.kategori === productsFilter)
-    console.log(newProductsArr)
+    // console.log(newProductsArr)
     setProductsView(newProductsArr)
     setDialog(false)
   }
 
   const handleSort = () => {
-    // console.log(productsSort)
+    // console.log(productsSortBy)
     // console.log("products:", products)
     setProductsView(products)
     // console.log("productsView:", productsView)
-    if(productsSort == "nama") {
+    if(productsSortBy == "nama") {
       productsView.sort((a,b) => (a.nama > b.nama) ? 1 : ((b.nama > a.nama) ? -1 : 0));
-    } else if(productsSort == "harga") {
+    } else if(productsSortBy == "harga") {
       productsView.sort((a,b) => (a.harga > b.harga) ? 1 : ((b.harga > a.harga) ? -1 : 0));
     }
     // console.log(productsView.sort((a,b) => (a.nama > b.nama) ? 1 : ((b.nama > a.nama) ? -1 : 0)))
     setDialog(false)
+  }
+
+  const handleSearch = (e) => {
+    let searchValue = e.target.value
+    setSearch(searchValue)
+
+    let newProductsArr = products.filter((product) => product.nama.includes(searchValue))
+    // console.log(newProductsArr)
+    setProductsView(newProductsArr)
   }
 
   return (
@@ -82,7 +92,13 @@ export default function ProductsPage() {
       <h1>Products</h1>
 
       <div className="SearchBar">
-        <SearchBarComponent />
+        <TextField
+          id="standard-textarea"
+          label="Search Products"
+          value={search}
+          onChange={(e)=>{handleSearch(e)}}
+          multiline
+        />
       </div>
 
       <div>
@@ -122,12 +138,12 @@ export default function ProductsPage() {
           <Select
             native
             variant="outlined"
-            value={productsSort}
+            value={productsSortBy}
             inputProps={{
                 name: 'Category',
                 id: 'filled-age-native-simple',
             }}
-            onChange={(e) => setProductsSort(e.target.value)}
+            onChange={(e) => setProductsSortBy(e.target.value)}
           >
             <option aria-label="SORT BY" value="default">Sort by</option>
             <option value={'nama'}>NAMA</option>
