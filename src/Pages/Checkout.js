@@ -78,11 +78,11 @@ export default function Checkout() {
 
     if (activeStep === 1) {
       let data = {
-        "total": totalPrice,
-        "alamat": address,
-        "user_id": 2,
-        "quantity": quantity,
-        "obat_jadi_id": obatId
+        total: totalPrice,
+        alamat: address,
+        user_id: 2,
+        quantity: quantity,
+        obat_jadi_id: obatId,
       };
 
       dispatch(insertTransaction(data));
