@@ -1,6 +1,7 @@
 import React from "react";
 import { Table } from "react-bootstrap";
 import { useSelector } from "react-redux";
+import "../Styles/Components/TableComponent.css";
 
 export default function TableComponent(props) {
   // const { historyTransaction } = useSelector(state => state.transactionReducer)
@@ -25,7 +26,13 @@ export default function TableComponent(props) {
             <td>{props.quantity}</td>
             <td>{props.tanggal}</td>
             <td>{props.total}</td>
-            <td>{props.status === "0" ? "Waiting for payment" : "Done Payment"}</td>
+            <td>
+              <div
+                className={props.status === "0" ? "waitPayment" : "donePayment"}
+              >
+                {props.status === "0" ? "Waiting for payment" : "Done Payment"}
+              </div>
+            </td>
           </tr>
         </tbody>
       </Table>

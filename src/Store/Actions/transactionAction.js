@@ -51,43 +51,28 @@ export function fetchTransaction() {
     axios
       .get(`${url}/getTransaction/${ids}`)
       .then((res) => {
-        console.log(res.data);
-        let data = res.data;
-        let nama = [];
-        let quantity = [];
-        let datas = []
-
-        for (let i = 0; i < data.length; i++) {
-
-          if([i] === 0){
-            datas.push(data)
+        let data = res.data.result;
+        let result = data.reduce((acc, ele) => {
+          let filtered = acc.filter((el) => el.id == ele.id);
+          if (filtered.length > 0) {
+            filtered[0]["nama"].push(ele.nama);
+            filtered[0]["quantity"].push(ele.quantity);
+          } else {
+            let element = {};
+            element["id"] = ele.id;
+            element["nama"] = [];
+            element["quantity"] = [];
+            element["tanggal"] = ele.tanggal;
+            element["status"] = ele.status;
+            element["nama"].push(ele.nama);
+            element["quantity"].push(ele.quantity);
+            element["total"] = ele.total;
+            acc.push(element);
           }
-
-          if (data[i].id === data[i - 1].id) {
-            nama.push(data[i].nama);
-          }
-        }
-
-        console.log(nama)
-
-        // let nama = res.data.result.map((value) => {
-        //   return value.nama;
-        // });
-
-        // let quantity = res.data.result.map((value) => {
-        //   return value.quantity;
-        // });
-
-        let transaksi = {
-          id: res.data.result[0].id,
-          nama: nama,
-          quantity: quantity,
-          tanggal: res.data.result[0].tanggal,
-          status: res.data.result[0].status,
-          total: res.data.result[0].total,
-        };
+          return acc;
+        }, []);
         dispatch(loadingTransactions(false));
-        // dispatch(fetchTransactions(transaksi));
+        dispatch(fetchTransactions(result));
       })
 
       .catch((err) => {

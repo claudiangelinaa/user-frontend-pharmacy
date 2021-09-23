@@ -1,0 +1,16 @@
+.donePayment {
+    font-weight: 500;
+    border-radius: 12px;
+    background-color: #4bd4a4;
+    width: 150px;
+    padding: 5px;
+}
+
+.waitPayment {
+    font-weight: 500;
+    margin: 10px auto;
+    border-radius: 12px;
+    background-color: #9d9d9d;
+    width: 170px;
+    padding: 5px
+}

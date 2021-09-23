@@ -29,30 +29,34 @@ export default function History() {
     <div className="History">
       <h2>History Transaction</h2>
       <div className="TableHistory">
-        <TableComponent
-          id={historyTransaction.id}
-          nama={historyTransaction.nama?.map((val) => {
-            return (
-              <>
-                <ul>
-                  <li style={{ listStyle: "none" }}>{val}</li>
-                </ul>
-              </>
-            );
-          })}
-          quantity={historyTransaction.quantity?.map((val) => {
-            return (
-              <>
-                <ul>
-                  <li style={{ listStyle: "none" }}>{val}</li>
-                </ul>
-              </>
-            );
-          })}
-          status={historyTransaction.status}
-          tanggal={moment(historyTransaction.tanggal).format("LL")}
-          total={convertToRupiah(historyTransaction.total)}
-        />
+        {historyTransaction.map((val) => {
+          return (
+            <TableComponent
+              id={val.id}
+              nama={val.nama?.map((val) => {
+                return (
+                  <>
+                    <ul>
+                      <li style={{ listStyle: "none" }}>{val}</li>
+                    </ul>
+                  </>
+                );
+              })}
+              quantity={val.quantity?.map((val) => {
+                return (
+                  <>
+                    <ul>
+                      <li style={{ listStyle: "none" }}>{val}</li>
+                    </ul>
+                  </>
+                );
+              })}
+              status={val.status}
+              tanggal={moment(val.tanggal).format("LL")}
+              total={convertToRupiah(val.total)}
+            />
+          );
+        })}
       </div>
     </div>
   );
