@@ -13,10 +13,11 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import { InputLabel, MenuItem, Select } from '@material-ui/core';
-import { doRegister } from '../Store/Actions/authAction';
-import { useDispatch } from 'react-redux';
+import { checkLogin, doRegister } from '../Store/Actions/authAction';
+import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios'
-import { useHistory } from 'react-router';
+import { useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
 
 function Copyright() {
   return (
@@ -59,8 +60,51 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function SignUp() {
+export default function UserProfile() {
+  const user = useSelector(state => state.authReducer)
+  const history = useHistory();
+
+  useEffect(()=>{
+    if(!user.isLogin){
+      history.push("/");
+    } else {
+      axios.get(`http://localhost:5002/users/${user.id}`)
+      .then((res)=>{
+        console.log(res.data.result[0]);
+        setNama(res.data.result[0].nama)
+        setEmail(res.data.result[0].email)
+        setPassword(res.data.result[0].password)
+        setNomorTelepon(res.data.result[0].nomor_telepon)
+        setGender(res.data.result[0].gender)
+        setAlamat(res.data.result[0].alamat)
+        setUmur(res.data.result[0].umur)
+      })
+      .catch(err=>{
+        console.log(err);
+      })
+    }
+  },[])
+
+  const handleSave = () =>{
+    let updatedData = {
+      nama,
+      email,
+      alamat,
+      nomor_telepon,
+      gender,
+      umur
+    }
+    axios.post(`http://localhost:5002/users/${user.id}`, updatedData)
+    .then((res)=>{
+      alert(`Data berhasil disimpan`)
+      history.push("/")
+    })
+    .catch(err=>{
+      console.log(err);
+    })
+  }
   const classes = useStyles();
+  
   const [nama, setNama] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -69,27 +113,8 @@ export default function SignUp() {
   const [gender, setGender] = useState("");
   const [umur, setUmur] = useState(0);
   const dispatch = useDispatch();
-  const history = useHistory();
   
-  const handleRegisterClick = (e) =>{
-    e.preventDefault();
-    const params = {nama, email, password, alamat, nomor_telepon, gender, umur};
-    axios.post(`http://localhost:5002/users/register`, params )
-    .then(res => {
-      console.log(res.data)
-      if(res.data.status !== "error") {
-        dispatch(doRegister(res.data));
-        alert(`Berhasil Register`)
-        localStorage.setItem('access_token', res.data.token)
-        history.push("/")
-      } else {
-        alert("Gagal register")
-      }
-    })
-    .catch(err=>{
-      console.log(err)
-    })
-    }
+  
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
@@ -98,9 +123,13 @@ export default function SignUp() {
           <LockOutlinedIcon />
         </Avatar>
         <Typography component="h1" variant="h5">
-          Sign up
+          {user.nama}
         </Typography>
-        <form className={classes.form} noValidate onSubmit={handleRegisterClick}>
+
+          <Link href="/Edit Photo" variant="body2">
+                Edit Photo
+          </Link>
+        <form className={classes.form} noValidate >
           <Grid container spacing={2}>
             <Grid item xs={12}>
               <TextField
@@ -128,20 +157,6 @@ export default function SignUp() {
                 autoComplete="email"
                 value={email}
                 onChange={e => setEmail(e.target.value)}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <TextField
-                variant="outlined"
-                required
-                fullWidth
-                name="password"
-                label="Password"
-                type="password"
-                id="password"
-                autoComplete="current-password"
-                value={password}
-                onChange={e => setPassword(e.target.value)}
               />
             </Grid>
 
@@ -186,9 +201,9 @@ export default function SignUp() {
                     id: 'outlined-gender-native-simple',
                 }}
             >
-                <option aria-label="None" value="" />
+                <option aria-label="None" value="">Gender </option>
                 <option value='Pria'>Pria</option>
-                <option value={20}>Wanita</option>
+                <option value='Wanita'>Wanita</option>
             </Select>
             </Grid>
 
@@ -203,7 +218,7 @@ export default function SignUp() {
                     id: 'filled-age-native-simple',
                 }}
             >
-                <option aria-label="None" value="" />
+                <option aria-label="None" value="">Umur</option> 
                 <option value={10}>10</option>
                 <option value={20}>11</option>
                 <option value={30}>12</option>
@@ -234,12 +249,6 @@ export default function SignUp() {
             </Select>
             </Grid>
 
-            <Grid item xs={12}>
-              <FormControlLabel
-                control={<Checkbox value="allowExtraEmails" color="primary" />}
-                label="I agree to the terms and conditions and the privacy policy."
-              />
-            </Grid>
           </Grid>
           <Button
             type="submit"
@@ -247,16 +256,11 @@ export default function SignUp() {
             variant="contained"
             color="primary"
             className={classes.submit}
+            onClick={()=>handleSave()}
           >
-            Sign Up
+            Save Changes
           </Button>
-          <Grid container justifyContent="flex-end">
-            <Grid item>
-              <Link href="/Login" variant="body2">
-                Already have an account? Sign in
-              </Link>
-            </Grid>
-          </Grid>
+          
         </form>
       </div>
       <Box mt={5}>

@@ -22,6 +22,19 @@ export function doLogin(params) {
       console.log(err);
     }
   };
+
+export function doLogin(data) {
+  return async dispatch => {
+    // console.log(data)
+    dispatch({
+      type: 'LOGIN',
+      payload: {
+        ...data,
+        isLogin: true,
+        isLoading: false
+      }
+    })
+  }
 }
 
 export function doRegister(data) {
@@ -40,18 +53,25 @@ export function doRegister(data) {
       })
       .catch((err) => console.log(err));
   };
+    dispatch({
+      type: 'LOGIN',
+      payload: {
+        ...data,
+        isLogin: true,
+      }
+    })
+  }
 }
 
-// export function doLogout() {
-//   return async (dispatch) => {
-//     await localStorage.removeItem('userId')
-//     const userId = await localStorage.getItem('userId');
-//     console.log("logout:", userId);
-//     dispatch({
-//       type: 'LOGOUT'
-//     })
-//   }
-// }
+export function doLogout() {
+  return async (dispatch) => {
+    await localStorage.removeItem('access_token')
+    dispatch({
+      type: 'LOGOUT'
+    })
+  }
+}
+
 
 // export function checkLogin() {
 //   return async dispatch => {
@@ -67,3 +87,18 @@ export function doRegister(data) {
 //     };
 //   };
 // }
+
+export function checkLogin() {
+  return async dispatch => {
+    const token = await localStorage.getItem('access_token');
+    console.log("[checkLogin] token:", token);
+    if (token) {
+      const { data } = await axios.get(`http://localhost:5002/users/check-token`, {headers : { "Authorization" : token }});
+      console.log("[checkLogin] data:", data);
+      dispatch({
+        type: 'LOGIN',
+        payload: { ...data, isLogin: true, isLoading: false }
+      });
+    };
+  };
+}

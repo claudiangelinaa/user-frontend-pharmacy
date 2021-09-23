@@ -4,13 +4,26 @@ import ShoppingCartOutlinedIcon from "@material-ui/icons/ShoppingCartOutlined";
 import NotificationsNoneOutlinedIcon from "@material-ui/icons/NotificationsNoneOutlined";
 import Badge from "@material-ui/core/Badge";
 import "../Styles/Components/Navbar.css";
-import { Link } from "react-router-dom";
+// import "../Styles/Navbar.css";
+import { Link, useHistory } from "react-router-dom";
+import axios from 'axios'
+import { useDispatch, useSelector } from "react-redux";
+import { checkLogin, doLogout } from '../Store/Actions/authAction';
+
 
 export default function NavbarComponents() {
-  // const [cart, setcart] = useState(JSON.parse(localStorage.getItem("cart")))
+  const dispatch = useDispatch();
+  const auth = useSelector(state => state.authReducer);
+  const history = useHistory();
 
-  // useEffect(() => {
-  // }, [cart])
+  useEffect(()=>{
+    dispatch(checkLogin())
+  }, [])
+
+  const handleLogoutClick = () => {
+    dispatch(doLogout());
+    history.push("/");
+  }
 
   return (
     <div>
@@ -44,6 +57,18 @@ export default function NavbarComponents() {
                 History
               </Link>
             </Nav.Link>
+            {
+              auth.isLogin ? (
+                <Nav.Link>
+                  <Link className="LinkRoute" to="/UserProfile">
+                    My Profile
+                  </Link>
+                </Nav.Link>
+              ) : (
+                <>
+                </>
+              )
+            }
           </Nav>
         </Container>
 
@@ -51,6 +76,21 @@ export default function NavbarComponents() {
           <Link className="LinkRoute" to="/Login">
             Login
           </Link>
+            {
+              // console.log("auth:", auth)
+              auth.isLogin ? (
+                <>
+                  {auth.nama}
+                  <Button variant="light" onClick={handleLogoutClick}>
+                  Logout
+                </Button>
+                </>
+              ) : (
+                <Link className="LinkRoute" to="/Login">
+                  Login
+                </Link>
+              )
+            }
         </div>
 
         <div style={{ marginRight: 20 }}>

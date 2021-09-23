@@ -10,6 +10,7 @@ import Login from "./Pages/Login";
 import Register from "./Pages/Register";
 import ResetPassword from "./Pages/ResetPassword";
 import Checkout from "./Pages/Checkout";
+import UserProfile from "./Pages/UserProfile";
 
 function App() {
   return (
@@ -44,6 +45,8 @@ function App() {
           </Route>
           <Route exact path="/reset-password">
             <ResetPassword />
+          <Route exact path="/UserProfile">
+            <UserProfile />
           </Route>
         </Switch>
       </div>

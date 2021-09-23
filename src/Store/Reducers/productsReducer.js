@@ -10,6 +10,7 @@ const initialState = {
   products: [],
   product: [],
   addProducts: [],
+  initProducts: [],
   isLoading: false,
 };
 
@@ -49,6 +50,12 @@ export default (state = initialState, action) => {
         addProducts: action.payload,
       };
     }
+      
+   case 'INIT_PRODUCTS':
+      return {
+      ...state,
+      initProducts: action.payload
+      }
 
     default:
       return {
@@ -56,3 +63,15 @@ export default (state = initialState, action) => {
       };
   }
 };
+
+// const initialState = []
+  
+//   export default function productsReducer(state = initialState, action) {
+//     switch(action.type) {
+//       case 'INIT_PRODUCTS':
+//         return action.payload
+        
+//       default:
+//         return state;
+//     }
+//   }

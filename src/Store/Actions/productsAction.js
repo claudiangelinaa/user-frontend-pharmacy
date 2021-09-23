@@ -59,4 +59,18 @@ export function fetchProduct(id) {
         console.log(err);
       });
   };
+  
+  export function doInitProducts() {
+  return dispatch => {
+    axios.get(`${url}/obatjadi`)
+      .then(res => {
+        dispatch({
+          type: 'INIT_PRODUCTS',
+          payload: res.data.result
+        })
+      })
+      .catch(err => {
+        console.log(err)
+      })
+  }
 }
