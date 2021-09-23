@@ -68,12 +68,11 @@ export default function UserProfile() {
     if(!user.isLogin){
       history.push("/");
     } else {
-      axios.get(`http://localhost:5002/users/${user.id}`)
+      axios.get(`http://localhost:5001/users/${user.id}`)
       .then((res)=>{
         console.log(res.data.result[0]);
         setNama(res.data.result[0].nama)
         setEmail(res.data.result[0].email)
-        setPassword(res.data.result[0].password)
         setNomorTelepon(res.data.result[0].nomor_telepon)
         setGender(res.data.result[0].gender)
         setAlamat(res.data.result[0].alamat)
@@ -94,7 +93,7 @@ export default function UserProfile() {
       gender,
       umur
     }
-    axios.post(`http://localhost:5002/users/${user.id}`, updatedData)
+    axios.post(`http://localhost:5001/users/${user.id}`, updatedData)
     .then((res)=>{
       alert(`Data berhasil disimpan`)
       history.push("/")
@@ -103,18 +102,38 @@ export default function UserProfile() {
       console.log(err);
     })
   }
+  
   const classes = useStyles();
   
   const [nama, setNama] = useState("");
   const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
   const [alamat, setAlamat] = useState("");
   const [nomor_telepon, setNomorTelepon] = useState("");
   const [gender, setGender] = useState("");
   const [umur, setUmur] = useState(0);
-  const dispatch = useDispatch();
+  const [selectedFile, setSelectedFile] = useState(null);
   
+  const handleEditPhoto = (e) =>{
+    setSelectedFile(e.target.files)
+    console.log(selectedFile)
+  }
   
+  const handleSubmitPhoto = () => {
+    console.log("submit photo")
+    const token = localStorage.getItem("access_token")
+    console.log("token:", token)
+    console.log("file:", selectedFile)
+
+    let fd = new FormData();
+    fd.append('images', selectedFile[0])
+
+    axios.post("http://localhost:5001/users/profile-picture", fd, { headers : { "Authorization" : token } })
+    .then(res => {
+      console.log("res:", res.data)
+    })
+    .catch(err => console.log(err))
+  }
+
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
@@ -126,9 +145,15 @@ export default function UserProfile() {
           {user.nama}
         </Typography>
 
-          <Link href="/Edit Photo" variant="body2">
-                Edit Photo
-          </Link>
+        <div>
+          <label htmlFor="contained-button-file">
+            <input accept="image/*" id="contained-button-file" multiple type="file" onChange={e => handleEditPhoto(e)} />
+          </label>
+          <Button variant="contained" onClick={() => handleSubmitPhoto()} >
+            Submit Photo
+          </Button>
+        </div>
+
         <form className={classes.form} noValidate >
           <Grid container spacing={2}>
             <Grid item xs={12}>
@@ -195,11 +220,12 @@ export default function UserProfile() {
             <Select
                 native
                 variant="outlined"
-                value="Gender"
+                value={gender}
                 inputProps={{
                     name: 'gender',
                     id: 'outlined-gender-native-simple',
                 }}
+                onChange={e=>{setGender(e.target.value)}}
             >
                 <option aria-label="None" value="">Gender </option>
                 <option value='Pria'>Pria</option>
@@ -212,40 +238,41 @@ export default function UserProfile() {
             <Select
                 native
                 variant="outlined"
-                value="Age"
+                value={umur}
                 inputProps={{
                     name: 'age',
                     id: 'filled-age-native-simple',
                 }}
+                onChange={e => setUmur(e.target.value)}
             >
-                <option aria-label="None" value="">Umur</option> 
+                <option aria-label="None" value={0}>Umur</option> 
                 <option value={10}>10</option>
-                <option value={20}>11</option>
-                <option value={30}>12</option>
-                <option value={20}>13</option>
-                <option value={30}>14</option>
-                <option value={20}>15</option>
-                <option value={30}>16</option>
-                <option value={20}>17</option>
-                <option value={30}>18</option>
-                <option value={20}>19</option>
-                <option value={30}>20</option>
-                <option value={20}>21</option>
-                <option value={30}>22</option>
-                <option value={20}>23</option>
-                <option value={30}>24</option>
-                <option value={20}>25</option>
-                <option value={30}>26</option>
-                <option value={20}>27</option>
-                <option value={30}>28</option>
-                <option value={20}>29</option>
+                <option value={11}>11</option>
+                <option value={12}>12</option>
+                <option value={13}>13</option>
+                <option value={14}>14</option>
+                <option value={15}>15</option>
+                <option value={16}>16</option>
+                <option value={17}>17</option>
+                <option value={18}>18</option>
+                <option value={19}>19</option>
+                <option value={20}>20</option>
+                <option value={21}>21</option>
+                <option value={22}>22</option>
+                <option value={23}>23</option>
+                <option value={24}>24</option>
+                <option value={25}>25</option>
+                <option value={26}>26</option>
+                <option value={27}>27</option>
+                <option value={28}>28</option>
+                <option value={29}>29</option>
                 <option value={30}>30</option>
-                <option value={20}>31</option>
-                <option value={30}>32</option>
-                <option value={20}>33</option>
-                <option value={30}>34</option>
-                <option value={20}>35</option>
-                <option value={30}>36</option>
+                <option value={31}>31</option>
+                <option value={32}>32</option>
+                <option value={33}>33</option>
+                <option value={34}>34</option>
+                <option value={35}>35</option>
+                <option value={36}>36</option>
             </Select>
             </Grid>
 

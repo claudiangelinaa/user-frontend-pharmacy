@@ -74,7 +74,7 @@ export default function SignUp() {
   const handleRegisterClick = (e) =>{
     e.preventDefault();
     const params = {nama, email, password, alamat, nomor_telepon, gender, umur};
-    axios.post(`http://localhost:5002/users/register`, params )
+    axios.post(`http://localhost:5001/users/register`, params )
     .then(res => {
       console.log(res.data)
       if(res.data.status !== "error") {
@@ -180,15 +180,16 @@ export default function SignUp() {
             <Select
                 native
                 variant="outlined"
-                value="Gender"
+                value={gender}
                 inputProps={{
                     name: 'gender',
                     id: 'outlined-gender-native-simple',
                 }}
+                onChange={e=>{setGender(e.target.value)}}
             >
                 <option aria-label="None" value="" />
                 <option value='Pria'>Pria</option>
-                <option value={20}>Wanita</option>
+                <option value='Wanita'>Wanita</option>
             </Select>
             </Grid>
 
@@ -197,40 +198,41 @@ export default function SignUp() {
             <Select
                 native
                 variant="outlined"
-                value="Age"
+                value={umur}
                 inputProps={{
                     name: 'age',
                     id: 'filled-age-native-simple',
                 }}
+                onChange={(e) =>{setUmur(e.target.value)}}
             >
-                <option aria-label="None" value="" />
+                <option aria-label="None" value={0}/> 
                 <option value={10}>10</option>
-                <option value={20}>11</option>
-                <option value={30}>12</option>
-                <option value={20}>13</option>
-                <option value={30}>14</option>
-                <option value={20}>15</option>
-                <option value={30}>16</option>
-                <option value={20}>17</option>
-                <option value={30}>18</option>
-                <option value={20}>19</option>
-                <option value={30}>20</option>
-                <option value={20}>21</option>
-                <option value={30}>22</option>
-                <option value={20}>23</option>
-                <option value={30}>24</option>
-                <option value={20}>25</option>
-                <option value={30}>26</option>
-                <option value={20}>27</option>
-                <option value={30}>28</option>
-                <option value={20}>29</option>
+                <option value={11}>11</option>
+                <option value={12}>12</option>
+                <option value={13}>13</option>
+                <option value={14}>14</option>
+                <option value={15}>15</option>
+                <option value={16}>16</option>
+                <option value={17}>17</option>
+                <option value={18}>18</option>
+                <option value={19}>19</option>
+                <option value={20}>20</option>
+                <option value={21}>21</option>
+                <option value={22}>22</option>
+                <option value={23}>23</option>
+                <option value={24}>24</option>
+                <option value={25}>25</option>
+                <option value={26}>26</option>
+                <option value={27}>27</option>
+                <option value={28}>28</option>
+                <option value={29}>29</option>
                 <option value={30}>30</option>
-                <option value={20}>31</option>
-                <option value={30}>32</option>
-                <option value={20}>33</option>
-                <option value={30}>34</option>
-                <option value={20}>35</option>
-                <option value={30}>36</option>
+                <option value={31}>31</option>
+                <option value={32}>32</option>
+                <option value={33}>33</option>
+                <option value={34}>34</option>
+                <option value={35}>35</option>
+                <option value={36}>36</option>
             </Select>
             </Grid>
 
