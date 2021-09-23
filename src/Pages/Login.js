@@ -79,10 +79,10 @@ export default function SignIn() {
 
   const handleLoginClick = (e) => {
     e.preventDefault();
-    // console.log("login:", email, password)
+    console.log("login:", email, password)
     axios.post(`${url}/users/login`, {email: email, password: password})
     .then((res)=>{
-      console.log(res)
+      console.log(res.data)
       if(res.data.status !== "error") {
         dispatch(doLogin(res.data))
         localStorage.setItem('access_token', res.data.token)
@@ -93,7 +93,7 @@ export default function SignIn() {
       }
     })
     .catch(err=>{
-      console.log(err)
+      console.log("err axios:", err)
     })
   }
 
@@ -107,7 +107,7 @@ export default function SignIn() {
         <Typography component="h1" variant="h5">
           Sign in
         </Typography>
-        <form className={classes.form} noValidate onSubmit={handleLoginClick}>
+        <form className={classes.form} noValidate onSubmit={(e)=>handleLoginClick(e)}>
           <TextField
             variant="outlined"
             margin="normal"

@@ -52,17 +52,23 @@ export default function ProductsPage() {
   const [productsFilter, setProductsFilter] = useState("");
   const [productsSortBy, setProductsSortBy] = useState("");
   const [search, setSearch] = useState("");
-  const [dialog, setDialog] = useState(false);
+  const [dialogFilter, setDialogFilter] = useState(false);
+  const [dialogSort, setDialogSort] = useState(false);
   const classes = useStyles();
   const dispatch = useDispatch();
   const history = useHistory();
+
   const handleFilter = () => {
-    let newProductsArr = products.filter(
-      (product) => product.kategori === productsFilter
-    );
-    // console.log(newProductsArr)
-    setProductsView(newProductsArr);
-    setDialog(false);
+    if(productsFilter !== "") {
+      let newProductsArr = products.filter(
+        (product) => product.kategori === productsFilter
+      );
+      // console.log(newProductsArr)
+      setProductsView(newProductsArr);
+    } else {
+      setProductsView(products);    
+    }
+    setDialogFilter(false);
   };
 
   const handleSort = () => {
@@ -71,16 +77,16 @@ export default function ProductsPage() {
     setProductsView(products);
     // console.log("productsView:", productsView)
     if (productsSortBy == "nama") {
-      productsView.sort((a, b) =>
+      setProductsView(productsView.sort((a, b) =>
         a.nama > b.nama ? 1 : b.nama > a.nama ? -1 : 0
-      );
+      ));
     } else if (productsSortBy == "harga") {
-      productsView.sort((a, b) =>
+      setProductsView(productsView.sort((a, b) =>
         a.harga > b.harga ? 1 : b.harga > a.harga ? -1 : 0
-      );
+      ));
     }
     // console.log(productsView.sort((a,b) => (a.nama > b.nama) ? 1 : ((b.nama > a.nama) ? -1 : 0)))
-    setDialog(false);
+    setDialogSort(false);
   };
 
   const handleSearch = (e) => {
@@ -88,7 +94,7 @@ export default function ProductsPage() {
     setSearch(searchValue);
 
     let newProductsArr = products.filter((product) =>
-      product.nama.includes(searchValue)
+      product.nama.toLowerCase().includes(searchValue.toLowerCase())
     );
     // console.log(newProductsArr)
     setProductsView(newProductsArr);
@@ -139,11 +145,11 @@ export default function ProductsPage() {
           />
         </div>
 
-        {/* <div>
-          <Button variant="outlined" onClick={() => setDialog(true)}>
+        <div>
+          <Button variant="outlined" onClick={() => setDialogFilter(true)}>
             Filter
           </Button>
-          <Dialog open={dialog} onClose={() => setDialog(false)}>
+          <Dialog open={dialogFilter} onClose={() => setDialogFilter(false)}>
             <DialogTitle>FILTER</DialogTitle>
             <Select
               native
@@ -155,7 +161,7 @@ export default function ProductsPage() {
               }}
               onChange={(e) => setProductsFilter(e.target.value)}
             >
-              <option aria-label="CATEGORY" value="CATEGORY">
+              <option aria-label="CATEGORY" value="">
                 Category
               </option>
               <option value={"Generik"}>GENERIK</option>
@@ -163,17 +169,17 @@ export default function ProductsPage() {
             </Select>
 
             <DialogActions>
-              <Button onClick={() => setDialog(false)}>Cancel</Button>
+              <Button onClick={() => setDialogFilter(false)}>Cancel</Button>
               <Button onClick={() => handleFilter()}>Submit</Button>
             </DialogActions>
           </Dialog>
         </div>
 
         <div>
-          <Button variant="outlined" onClick={() => setDialog(true)}>
+          <Button variant="outlined" onClick={() => setDialogSort(true)}>
             Sort
           </Button>
-          <Dialog open={dialog} onClose={() => setDialog(false)}>
+          <Dialog open={dialogSort} onClose={() => setDialogSort(false)}>
             <DialogTitle>SORT</DialogTitle>
             <Select
               native
@@ -193,13 +199,14 @@ export default function ProductsPage() {
             </Select>
 
             <DialogActions>
-              <Button onClick={() => setDialog(false)}>Cancel</Button>
+              <Button onClick={() => setDialogSort(false)}>Cancel</Button>
               <Button onClick={() => handleSort()}>Submit</Button>
             </DialogActions>
           </Dialog>
-        </div> */}
+        </div>
+
         <div className="Products">
-        {products.map((val) => {
+        {productsView.map((val) => {
           return (
             <CardComponent
               id={val.id}

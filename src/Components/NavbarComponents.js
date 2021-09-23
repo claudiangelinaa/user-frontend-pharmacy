@@ -9,7 +9,7 @@ import { Link, useHistory } from "react-router-dom";
 import axios from 'axios'
 import { useDispatch, useSelector } from "react-redux";
 import { checkLogin, doLogout } from '../Store/Actions/authAction';
-
+import Typography from "@mui/material/Typography";
 
 export default function NavbarComponents() {
   const dispatch = useDispatch();
@@ -79,12 +79,16 @@ export default function NavbarComponents() {
             {
               // console.log("auth:", auth)
               auth.isLogin ? (
-                <>
-                  {auth.nama}
-                  <Button variant="light" onClick={handleLogoutClick}>
-                  Logout
-                </Button>
-                </>
+                <div style={{ display: "flex" }}>
+                  <Typography style={{ marginRight: 20 }} >
+                    Hello, {auth.nama}
+                  </Typography>
+                  <div>
+                    <Link className="LinkRoute" onClick={handleLogoutClick}>
+                      Logout
+                    </Link>
+                  </div>
+                </div>
               ) : (
                 <Link className="LinkRoute" to="/Login">
                   Login
