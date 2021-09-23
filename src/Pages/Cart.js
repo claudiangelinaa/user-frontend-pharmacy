@@ -1,74 +1,124 @@
-import React, { useState } from "react";
+
+import React, { useEffect, useState } from "react";
 import ButtonComponent from "../Components/ButtonComponent";
-import IndeterminateCheckBoxOutlinedIcon from "@material-ui/icons/IndeterminateCheckBoxOutlined";
-import AddBoxOutlinedIcon from "@material-ui/icons/AddBoxOutlined";
-import EditOutlinedIcon from "@material-ui/icons/EditOutlined";
-import DeleteOutlineOutlinedIcon from "@material-ui/icons/DeleteOutlineOutlined";
 import "../Styles/Cart.css";
-import axios from 'axios'
-import { useEffect } from "react";
+import { convertToRupiah } from "../helpers/convertToRupiah";
+import { useHistory } from "react-router";
 
 export default function Cart() {
-  const [productsDetail, setProductsDetail] = useState([])
-  // useEffect(() => {
-  //   axios.get(`http://localhost:5002/obatjadi/${2}`)
-  //   .then((res)=>{
-  //     console.log(res.data.result)
-  //     setProductsDetail(res.data.result)
-  //   })
-  //   .catch(err=>{
-  //     console.log(err)
-  //   })
-  // }, [])
-  useEffect(()=>{
-    axios.get(`http://localhost:5002/obatjadi/${2}`)
-    .then((res)=>{
-      console.log(res.data.result)
-      setProductsDetail(res.data.result)
-    })
-    .catch(err=>{
-      console.log(err)
-    })
-  },[])
+  const history = useHistory();
+  const [cartProduct, setcartProduct] = useState([]);
+  const [cartTotalPrice, setcartTotalPrice] = useState([]);
+  const [quantity, setQuantity] = useState("");
+
+  function CheckOut() {
+    localStorage.setItem("checkout", JSON.stringify(cartProduct));
+    localStorage.removeItem("cart");
+    history.push("/Checkout");
+  }
+
+  function changeQuantity(product) {
+    const index = cartProduct.findIndex(
+      (products) => products.id == product.id
+    );
+
+    const qty = (cartProduct[index].quantity = Number(quantity));
+
+    if (qty > product.stock) {
+      alert("Quantity melebihi stock yang ada!");
+    } else {
+      cartProduct[index].quantity = Number(quantity);
+      setcartProduct(cartProduct);
+      localStorage.setItem("cart", JSON.stringify(cartProduct));
+    }
+    filterProduct()
+  }
+
+  function removeItems(id) {
+    const data = cartProduct.filter((value) => value.id !== id);
+    localStorage.setItem("cart", JSON.stringify(data));
+    const cartData = JSON.parse(localStorage.getItem("cart") || "[]");
+
+    let sums = cartData.reduce((sum, i) => (sum += i.harga * i.quantity), 0);
+
+    // let eachPrice = cartData.reduce(
+    //   (sum, i) => (sum = i.harga * i.quantity),
+    //   0
+    // );
+    setcartTotalPrice(sums);
+    setcartProduct(cartData);
+    filterProduct();
+  }
+
+  function filterProduct() {
+    const cart = JSON.parse(localStorage.getItem("cart") || "[]");
+
+    let results = cart.filter(
+      (ele, ind) => ind === cart.findIndex((elem) => elem.id === ele.id)
+    );
+    let sums = results.reduce((sum, i) => (sum += i.harga * i.quantity), 0);
+    // let eachPrice = results.reduce((sum, i) => (sum = i.harga * i.quantity), 0);
+    setcartTotalPrice(sums);
+    setcartProduct(results);
+  }
+
+  useEffect(() => {
+    filterProduct();
+  }, []);
+
   return (
     <div className="Cart">
       <h2>Shopping Cart</h2>
-
-      <div className="Container">
-        <div className="Catalog">
-          <h3>Cart</h3>
-
-          <div className="CatalogCard">
-            <div className="DetailCatalog">
-              <div className="ImgContainer"></div>
-              <h5>Amphetamine</h5>
-
-              <div className="Icon">
-                <IndeterminateCheckBoxOutlinedIcon />
-                {"  "}1{"  "}
-                <AddBoxOutlinedIcon />
-                <div style={{ marginTop: 20 }}>
-                  <DeleteOutlineOutlinedIcon />
-                  Delete
+      {cartProduct.map((val) => {
+        return (
+          <>
+            <div class="Cart-Items">
+              <div class="image-box">
+                <img src={val.foto_produk} style={{ height: 120 }} />
+              </div>
+              <div class="about">
+                <h4>{val.nama}</h4>
+              </div>
+              <div class="counter">
+                <input
+                  min="1"
+                  defaultValue={val.quantity}
+                  style={{ width: 100, padding: 10, marginRight: 20 }}
+                  type="number"
+                  onChange={(e) => setQuantity(e.target.value)}
+                />
+                <ButtonComponent
+                  onSubmit={() => changeQuantity(val)}
+                  title={"Change"}
+                />
+              </div>
+              <div class="prices">
+                <div class="amount">
+                  {convertToRupiah(val.harga)}
+                  {"   "} x {val.quantity} pcs
+                </div>
+                <div class="remove" onClick={() => removeItems(val.id)}>
+                  <u>Remove</u>
                 </div>
               </div>
             </div>
+          </>
+        );
+      })}
+      <hr />
+      <div class="checkout">
+        <div class="total">
+          <div>
+            <div class="Subtotal">Sub-Total</div>
+            <div class="items">{cartProduct.length} items</div>
+          </div>
+          <div class="total-amount">
+            {cartProduct.length === 0 ? 0 : convertToRupiah(cartTotalPrice)}
           </div>
         </div>
-
-        <div className="Price">
-          <h3>The total amount of price</h3>
-
-          <div className="text">
-            <h6>Temporary Amount</h6>
-            <h6>Delivery Fee</h6>
-
-            <hr />
-          </div>
-
-          <h6>Total price</h6>
-          <ButtonComponent title={"Checkout"} />
-        </div>
+        <button class="buttons" onClick={CheckOut}>
+          Checkout
+        </button>
       </div>
     </div>
   );

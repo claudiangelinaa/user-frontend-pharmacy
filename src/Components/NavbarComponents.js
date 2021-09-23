@@ -1,14 +1,15 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Nav, Navbar, Container, NavDropdown, Button } from "react-bootstrap";
 import ShoppingCartOutlinedIcon from "@material-ui/icons/ShoppingCartOutlined";
 import NotificationsNoneOutlinedIcon from "@material-ui/icons/NotificationsNoneOutlined";
 import Badge from "@material-ui/core/Badge";
-import "../Styles/Navbar.css";
+import "../Styles/Components/Navbar.css";
+// import "../Styles/Navbar.css";
 import { Link, useHistory } from "react-router-dom";
-import { useEffect } from "react";
 import axios from 'axios'
 import { useDispatch, useSelector } from "react-redux";
 import { checkLogin, doLogout } from '../Store/Actions/authAction';
+
 
 export default function NavbarComponents() {
   const dispatch = useDispatch();
@@ -72,6 +73,9 @@ export default function NavbarComponents() {
         </Container>
 
         <div style={{ marginRight: 20 }}>
+          <Link className="LinkRoute" to="/Login">
+            Login
+          </Link>
             {
               // console.log("auth:", auth)
               auth.isLogin ? (
@@ -88,7 +92,7 @@ export default function NavbarComponents() {
               )
             }
         </div>
-        
+
         <div style={{ marginRight: 20 }}>
           <Badge badgeContent={4} color="error">
             <Link className="LinkRoute" to="/Cart">

@@ -5,8 +5,8 @@
 
 .Products {
     display: flex;
-    /* justify-content: center; */
-    /* flex-wrap: wrap; */
+    justify-content: center;
+    flex-wrap: wrap;
 }
 
 .ProductPage .SearchBar {

@@ -6,8 +6,10 @@ import History from "./Pages/History";
 import Homepage from "./Pages/Homepage";
 import ProductsPage from "./Pages/ProductsPage";
 import ProductCustom from "./Pages/ProductCustom";
-import Login from "./Pages/Login"
-import Register from "./Pages/Register"
+import Login from "./Pages/Login";
+import Register from "./Pages/Register";
+import ResetPassword from "./Pages/ResetPassword";
+import Checkout from "./Pages/Checkout";
 import UserProfile from "./Pages/UserProfile";
 
 function App() {
@@ -38,6 +40,11 @@ function App() {
           <Route exact path="/Cart">
             <Cart />
           </Route>
+          <Route exact path="/Checkout">
+            <Checkout />
+          </Route>
+          <Route exact path="/reset-password">
+            <ResetPassword />
           <Route exact path="/UserProfile">
             <UserProfile />
           </Route>

@@ -1,11 +1,13 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import CardComponent from "../Components/CardComponent";
 import SearchBarComponent from "../Components/SearchBarComponent";
 import "../Styles/Products.css";
+import { useSelector } from "react-redux";
+import { fetchProducts } from "../Store/Actions/productsAction";
+import LoadingComponent from "../Components/LoadingComponent";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router";
-import { useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import axios from "axios";
 import { doInitProducts } from "../Store/Actions/productsAction";
@@ -31,6 +33,10 @@ import ButtonComponent from "../Components/ButtonComponent";
 import { useSelector } from "react-redux";
 import ModalComponent from "../Components/ModalComponent";
 
+// export default function ProductsPage() {
+//   // const [products, setProducts] = useState([]);
+//   const { products, isLoading } = useSelector((state) => state.productsReducer);
+
 const useStyles = makeStyles({
   root: {
     maxWidth: 300,
@@ -42,20 +48,44 @@ const useStyles = makeStyles({
 });
 
 export default function ProductsPage() {
-  const classes = useStyles();
-  const dispatch = useDispatch();
-  const history = useHistory();
-
-  useEffect(() => {
-    dispatch(doInitProducts());
-  }, []);
-
-  const products = useSelector((state) => state.productsReducer);
+  const { products, isLoading } = useSelector((state) => state.productsReducer);
+//   const products = useSelector((state) => state.productsReducer);
   const [productsView, setProductsView] = useState(products);
   const [productsFilter, setProductsFilter] = useState('');
   const [productsSortBy, setProductsSortBy] = useState('');
   const [search, setSearch] = useState('');
   const [dialog, setDialog] = useState(false);
+  const classes = useStyles();
+  const dispatch = useDispatch();
+  const history = useHistory();
+  
+  function onSubmit() {
+    let data = {
+      id: props.id,
+      nama: props.nama,
+      harga: props.harga,
+      foto_produk: props.foto_produk,
+      stock: props.stock,
+      deskripsi: props.deskripsi,
+      quantity: 1,
+    };
+    let getData = JSON.parse(localStorage.getItem("cart")) || [];
+    getData.push(data);
+    localStorage.setItem("cart", JSON.stringify(getData));
+  }
+
+  useEffect(() => {
+    dispatch(fetchProducts());
+  }, []);
+
+  if (isLoading) {
+    return (
+      <>
+        <LoadingComponent />
+      </>
+    );
+    dispatch(doInitProducts());
+  }, []);
 
   const handleFilter = () => {
     let newProductsArr = products.filter((product) => product.kategori === productsFilter)
@@ -156,6 +186,19 @@ export default function ProductsPage() {
           </DialogActions>
         </Dialog>
       </div>
+//       <div className="Products">
+//         {products.map((val) => {
+//           return (
+//             <CardComponent
+//               id={val.id}
+//               foto_produk={val.foto_produk}
+//               nama={val.nama}
+//               deskripsi={val.deskripsi}
+//               harga={val.harga}
+//               stock={val.stock}
+//             />
+//           );
+//         })}
 
       <div style={{ display: "flex", flexDirection: "column" }}>
         {productsView.map((product) => {
@@ -190,18 +233,18 @@ export default function ProductsPage() {
                   >
                     Stok : {product.stok}
                   </Typography>
-                  <Typography
-                    variant="body2"
-                    color="textSecondary"
-                    component="p"
-                  >
-                    Kategori : {product.kategori}
-                  </Typography>
+//                   <Typography
+//                     variant="body2"
+//                     color="textSecondary"
+//                     component="p"
+//                   >
+//                     Kategori : {product.kategori}
+//                   </Typography>
                 </CardActionArea>
                 <CardActions>
                   <ButtonComponent
                     title={"Add To Cart"}
-                    onClick={() => onsubmit()}
+                    onClick={() => onSubmit()}
                   />
                 </CardActions>
               </Card>

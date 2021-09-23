@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "../Styles/Homepage.css";
 import Background from "../Assets/Bg.jpg";
 import ButtonComponent from "../Components/ButtonComponent";
