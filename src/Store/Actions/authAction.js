@@ -1,11 +1,12 @@
 import axios from "axios";
+import { url } from "../../helpers/urlConfig"
 
 export function doLogin(params) {
   return async (dispatch) => {
     try {
       dispatch({ type: "LOGIN", payload: { isLoading: true } });
       const { data } = await axios.post(
-        `http://localhost:5002/users/login`,
+        `${url}/users/login`,
         params
       );
 
@@ -22,25 +23,26 @@ export function doLogin(params) {
       console.log(err);
     }
   };
-
-export function doLogin(data) {
-  return async dispatch => {
-    // console.log(data)
-    dispatch({
-      type: 'LOGIN',
-      payload: {
-        ...data,
-        isLogin: true,
-        isLoading: false
-      }
-    })
-  }
 }
+
+// export function doLogin(data) {
+//   return async dispatch => {
+//     // console.log(data)
+//     dispatch({
+//       type: 'LOGIN',
+//       payload: {
+//         ...data,
+//         isLogin: true,
+//         isLoading: false
+//       }
+//     })
+//   }
+// }
 
 export function doRegister(data) {
   return (dispatch) => {
     axios
-      .post(`http://localhost:5002/users/register`, data)
+      .post(`${url}/users/register`, data)
       .then((res) => {
         console.log("register:", res);
         dispatch({
@@ -52,7 +54,6 @@ export function doRegister(data) {
         });
       })
       .catch((err) => console.log(err));
-  };
     dispatch({
       type: 'LOGIN',
       payload: {
@@ -93,7 +94,7 @@ export function checkLogin() {
     const token = await localStorage.getItem('access_token');
     console.log("[checkLogin] token:", token);
     if (token) {
-      const { data } = await axios.get(`http://localhost:5002/users/check-token`, {headers : { "Authorization" : token }});
+      const { data } = await axios.get(`${url}/users/check-token`, {headers : { "Authorization" : token }});
       console.log("[checkLogin] data:", data);
       dispatch({
         type: 'LOGIN',

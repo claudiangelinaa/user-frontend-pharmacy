@@ -57,7 +57,7 @@ export default function NavbarComponents() {
                 History
               </Link>
             </Nav.Link>
-            {
+            {/* {
               auth.isLogin ? (
                 <Nav.Link>
                   <Link className="LinkRoute" to="/UserProfile">
@@ -68,14 +68,14 @@ export default function NavbarComponents() {
                 <>
                 </>
               )
-            }
+            } */}
           </Nav>
         </Container>
 
         <div style={{ marginRight: 20 }}>
-          <Link className="LinkRoute" to="/Login">
+          {/* <Link className="LinkRoute" to="/Login">
             Login
-          </Link>
+          </Link> */}
             {
               // console.log("auth:", auth)
               auth.isLogin ? (

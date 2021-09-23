@@ -59,6 +59,7 @@ export function fetchProduct(id) {
         console.log(err);
       });
   };
+}
   
   export function doInitProducts() {
   return dispatch => {

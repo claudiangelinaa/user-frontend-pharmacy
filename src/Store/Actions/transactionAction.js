@@ -51,13 +51,32 @@ export function fetchTransaction() {
     axios
       .get(`${url}/getTransaction/${ids}`)
       .then((res) => {
-        let nama = res.data.result.map((value) => {
-          return value.nama;
-        });
+        console.log(res.data);
+        let data = res.data;
+        let nama = [];
+        let quantity = [];
+        let datas = []
 
-        let quantity = res.data.result.map((value) => {
-          return value.quantity;
-        });
+        for (let i = 0; i < data.length; i++) {
+
+          if([i] === 0){
+            datas.push(data)
+          }
+
+          if (data[i].id === data[i - 1].id) {
+            nama.push(data[i].nama);
+          }
+        }
+
+        console.log(nama)
+
+        // let nama = res.data.result.map((value) => {
+        //   return value.nama;
+        // });
+
+        // let quantity = res.data.result.map((value) => {
+        //   return value.quantity;
+        // });
 
         let transaksi = {
           id: res.data.result[0].id,
@@ -68,7 +87,7 @@ export function fetchTransaction() {
           total: res.data.result[0].total,
         };
         dispatch(loadingTransactions(false));
-        dispatch(fetchTransactions(transaksi));
+        // dispatch(fetchTransactions(transaksi));
       })
 
       .catch((err) => {
