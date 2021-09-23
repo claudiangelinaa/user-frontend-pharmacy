@@ -57,7 +57,7 @@ export default function NavbarComponents() {
                 History
               </Link>
             </Nav.Link>
-            {/* {
+            {
               auth.isLogin ? (
                 <Nav.Link>
                   <Link className="LinkRoute" to="/UserProfile">
@@ -68,7 +68,7 @@ export default function NavbarComponents() {
                 <>
                 </>
               )
-            } */}
+            }
           </Nav>
         </Container>
 
