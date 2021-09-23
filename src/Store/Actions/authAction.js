@@ -1,43 +1,44 @@
 import axios from "axios";
 import { url } from "../../helpers/urlConfig"
 
-export function doLogin(params) {
-  return async (dispatch) => {
-    try {
-      dispatch({ type: "LOGIN", payload: { isLoading: true } });
-      const { data } = await axios.post(
-        `${url}/users/login`,
-        params
-      );
+// export function doLogin(params) {
+//   return async (dispatch) => {
+//     try {
+//       dispatch({ type: "LOGIN", payload: { isLoading: true } });
+//       const { data } = await axios.post(
+//         `${url}/users/login`,
+//         params
+//       );
 
-      dispatch({
-        type: "LOGIN",
-        payload: {
-          ...data,
-          isLogin: true,
-          isLoading: false,
-        },
-      });
-      localStorage.setItem("access_token", data.token);
-    } catch (err) {
-      console.log(err);
-    }
-  };
-}
-
-// export function doLogin(data) {
-//   return async dispatch => {
-//     // console.log(data)
-//     dispatch({
-//       type: 'LOGIN',
-//       payload: {
-//         ...data,
-//         isLogin: true,
-//         isLoading: false
-//       }
-//     })
-//   }
+//       dispatch({
+//         type: "LOGIN",
+//         payload: {
+//           ...data,
+//           isLogin: true,
+//           isLoading: false,
+//         },
+//       });
+//       console.log("data", data)
+//       localStorage.setItem("access_token", data.token);
+//     } catch (err) {
+//       console.log(err);
+//     }
+//   };
 // }
+
+export function doLogin(data) {
+  return async dispatch => {
+    // console.log(data)
+    dispatch({
+      type: 'LOGIN',
+      payload: {
+        ...data,
+        isLogin: true,
+        isLoading: false
+      }
+    })
+  }
+}
 
 export function doRegister(data) {
   return (dispatch) => {
