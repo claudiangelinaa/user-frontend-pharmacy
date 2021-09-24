@@ -11,7 +11,7 @@ import Typography from "@material-ui/core/Typography";
 import ButtonComponent from "../Components/ButtonComponent";
 import { convertToRupiah } from "../helpers/convertToRupiah";
 import { useHistory } from "react-router";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { fetchProduct } from "../Store/Actions/productsAction";
 
 const useStyles = makeStyles({
@@ -29,12 +29,18 @@ const useStyles = makeStyles({
 export default function CardComponent(props) {
   const history = useHistory();
   const classes = useStyles();
+  const auth = useSelector(state => state.authReducer)
 
   // function getCartTotal(){
   //   return cart.reduce((sum, {quantity}) => sum + quantity, 0)
   // }
 
   function onSubmit() {
+    if(!auth.isLogin){
+      alert('Harap login terlebih dahulu')
+      history.push("/login")
+      return
+    }
     let data = {
       id: props.id,
       nama: props.nama,
@@ -50,8 +56,8 @@ export default function CardComponent(props) {
   }
 
   return (
-    <Card className={classes.root} onClick={()=> history.push(`/product-detail/${props.id}`)}>
-      <CardActionArea >
+    <Card className={classes.root}>
+      <CardActionArea onClick={()=> history.push(`/product-detail/${props.id}`)}>
         <CardMedia className={classes.media} image={props.foto_produk} />
         <CardContent>
           <Typography gutterBottom variant="h5" component="h4">
