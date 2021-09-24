@@ -16,17 +16,18 @@ import { fetchProduct } from "../Store/Actions/productsAction";
 
 const useStyles = makeStyles({
   root: {
-    maxWidth: 300,
+    // maxWidth: 300,
     padding: 10,
     margin: 30,
-    height: "fit-content",
+    height: 800,
+    width: 700
   },
   media: {
-    height: 120,
+    height: 320,
   },
 });
 
-export default function CardComponent(props) {
+export default function CardDetailComponent(props) {
   const history = useHistory();
   const classes = useStyles();
 
@@ -71,8 +72,11 @@ export default function CardComponent(props) {
           <strong>{convertToRupiah(props.harga)}</strong>
         </CardContent>
         <CardContent>
-            {props.stok}
-
+            Stock :  {props.stock}
+            {/* {JSON.stringify(props)} */}
+        </CardContent>
+        <CardContent>
+            Kategori :  {props.kategori}
         </CardContent>
       </CardActionArea>
       <CardActions>
