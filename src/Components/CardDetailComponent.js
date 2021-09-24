@@ -11,7 +11,7 @@ import Typography from "@material-ui/core/Typography";
 import ButtonComponent from "../Components/ButtonComponent";
 import { convertToRupiah } from "../helpers/convertToRupiah";
 import { useHistory } from "react-router";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { fetchProduct } from "../Store/Actions/productsAction";
 
 const useStyles = makeStyles({
@@ -30,28 +30,35 @@ const useStyles = makeStyles({
 export default function CardDetailComponent(props) {
   const history = useHistory();
   const classes = useStyles();
-
+  const auth = useSelector(state => state.authReducer)
   // function getCartTotal(){
   //   return cart.reduce((sum, {quantity}) => sum + quantity, 0)
   // }
 
   function onSubmit() {
-    let data = {
-      id: props.id,
-      nama: props.nama,
-      harga: props.harga,
-      foto_produk: props.foto_produk,
-      stock: props.stock,
-      deskripsi: props.deskripsi,
-      quantity: 1,
-    };
+    //   console.log(auth);
+      if(!auth.isLogin){
+          console.log(auth);
+          alert('Harap login terlebih dahulu')
+          history.push("/Login");
+          return
+        }
+      let data = {
+          id: props.id,
+          nama: props.nama,
+          harga: props.harga,
+          foto_produk: props.foto_produk,
+          stock: props.stock,
+          deskripsi: props.deskripsi,
+          quantity: 1,
+        };
     let getData = JSON.parse(localStorage.getItem("cart")) || [];
     getData.push(data);
     localStorage.setItem("cart", JSON.stringify(getData));
   }
 
   return (
-    <Card className={classes.root} onClick={()=> history.push(`/product-detail/${props.id}`)}>
+    <Card className={classes.root} >
       <CardActionArea >
         <CardMedia className={classes.media} image={props.foto_produk} />
         <CardContent>
