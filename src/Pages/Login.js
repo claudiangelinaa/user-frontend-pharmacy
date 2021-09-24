@@ -82,18 +82,18 @@ export default function SignIn() {
     console.log("login:", email, password)
     axios.post(`${url}/users/login`, {email: email, password: password})
     .then((res)=>{
-      console.log(res.data)
       if(res.data.status !== "error") {
         dispatch(doLogin(res.data))
         localStorage.setItem('access_token', res.data.token)
         alert(`Berhasil Login`)
         history.push("/")
       } else {
-        alert('Gagal login')
+        alert(res.data.error_message)
       }
     })
     .catch(err=>{
-      console.log("err axios:", err)
+      console.log(err)
+      alert('Gagal login')
     })
   }
 
