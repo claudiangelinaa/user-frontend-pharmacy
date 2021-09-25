@@ -101,7 +101,7 @@ export default function SignIn() {
             title: "Oops...",
             text: res.data.error,
           });
-          return
+          return;
         }
         Swal.fire("Good job!", "Email successfully send!", "success");
         handleCloseAccount();

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { url } from "../helpers/urlConfig";
 import axios from "axios";
+import Swal from "sweetalert2";
 import "../Styles/ResetPassword.css";
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
@@ -57,14 +58,22 @@ export default function ResetPassword() {
       .post(`${url}/users/reset-password`, data)
       .then((res) => {
         if (res.data.error) {
-          alert(res.data.error);
-          return
+          Swal.fire({
+            icon: "error",
+            title: "Oops...",
+            text: res.data.error,
+          });
+          return;
         }
-        
+
         history.push("/Login");
       })
       .catch((err) => {
-        alert(err);
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: err,
+        });
       });
   }
 
