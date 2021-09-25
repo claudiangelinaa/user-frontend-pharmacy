@@ -12,12 +12,13 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-import { InputLabel, MenuItem, Select } from '@material-ui/core';
+import { InputLabel, MenuItem, Select, Dialog, DialogTitle, DialogActions } from '@material-ui/core';
 import { checkLogin, doRegister } from '../Store/Actions/authAction';
 import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios'
 import { useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
+import { LaptopWindows } from '@material-ui/icons';
 
 function Copyright() {
   return (
@@ -66,6 +67,7 @@ export default function UserProfile() {
 
   useEffect(()=>{
     if(!user.isLogin){
+      console.log("not logged in")
       history.push("/");
     } else {
       axios.get(`http://localhost:5001/users/${user.id}`)
@@ -77,6 +79,7 @@ export default function UserProfile() {
         setGender(res.data.result[0].gender)
         setAlamat(res.data.result[0].alamat)
         setUmur(res.data.result[0].umur)
+        setProfilePicture(res.data.result[0].profile_picture)
       })
       .catch(err=>{
         console.log(err);
@@ -84,7 +87,8 @@ export default function UserProfile() {
     }
   },[])
 
-  const handleSave = () =>{
+  const handleSave = (e) =>{
+    e.preventDefault()
     let updatedData = {
       nama,
       email,
@@ -95,8 +99,13 @@ export default function UserProfile() {
     }
     axios.post(`http://localhost:5001/users/${user.id}`, updatedData)
     .then((res)=>{
+      setNama(updatedData.nama)
+      setEmail(updatedData.email)
+      setAlamat(updatedData.alamat)
+      setNomorTelepon(updatedData.nomor_telepon);
+      setGender(updatedData.gender);
+      setUmur(updatedData.umur)
       alert(`Data berhasil disimpan`)
-      history.push("/")
     })
     .catch(err=>{
       console.log(err);
@@ -111,18 +120,20 @@ export default function UserProfile() {
   const [nomor_telepon, setNomorTelepon] = useState("");
   const [gender, setGender] = useState("");
   const [umur, setUmur] = useState(0);
+  const [profilePicture, setProfilePicture] = useState("");
   const [selectedFile, setSelectedFile] = useState(null);
+  const [dialogUpload, setDialogUpload] = useState(false);
   
   const handleEditPhoto = (e) =>{
     setSelectedFile(e.target.files)
-    console.log(selectedFile)
+    console.log("selectedFile:", selectedFile)
   }
   
   const handleSubmitPhoto = () => {
-    console.log("submit photo")
+    // console.log("submit photo")
     const token = localStorage.getItem("access_token")
-    console.log("token:", token)
-    console.log("file:", selectedFile)
+    // console.log("token:", token)
+    // console.log("file:", selectedFile)
 
     let fd = new FormData();
     fd.append('images', selectedFile[0])
@@ -131,6 +142,8 @@ export default function UserProfile() {
     .then(res => {
       console.log("res:", res.data)
       alert(`Upload photo sukses`)
+      setProfilePicture(res.data.image_url)
+      setDialogUpload(false)
     })
     .catch(err => console.log(err))
   }
@@ -139,20 +152,29 @@ export default function UserProfile() {
     <Container component="main" maxWidth="xs">
       <CssBaseline />
       <div className={classes.paper}>
-        <Avatar className={classes.avatar}>
-          <LockOutlinedIcon />
-        </Avatar>
+        <Avatar className={classes.avatar} src={profilePicture} sx={{ width: 56, height: 56 }}/>
         <Typography component="h1" variant="h5">
           {user.nama}
         </Typography>
 
         <div>
-          <label htmlFor="contained-button-file">
-            <input accept="image/*" id="contained-button-file" multiple type="file" onChange={e => handleEditPhoto(e)} />
-          </label>
-          <Button variant="contained" onClick={() => handleSubmitPhoto()} >
-            Submit Photo
+          <Button variant="outlined" onClick={() => setDialogUpload(true)}>
+            Edit Profile Picture
           </Button>
+          <Dialog open={dialogUpload} onClose={() => setDialogUpload(false)}>
+            <DialogTitle>Upload Profile Picture</DialogTitle>
+
+            <div>
+              <label htmlFor="contained-button-file">
+                <input accept="image/*" id="contained-button-file" multiple type="file" onChange={e => handleEditPhoto(e)} />
+              </label>
+            </div>
+
+            <DialogActions>
+              <Button onClick={() => setDialogUpload(false)}>Cancel</Button>
+              <Button onClick={() => handleSubmitPhoto()}>Submit</Button>
+            </DialogActions>
+          </Dialog>
         </div>
 
         <form className={classes.form} noValidate >
@@ -284,7 +306,7 @@ export default function UserProfile() {
             variant="contained"
             color="primary"
             className={classes.submit}
-            onClick={()=>handleSave()}
+            onClick={(e)=>handleSave(e)}
           >
             Save Changes
           </Button>
