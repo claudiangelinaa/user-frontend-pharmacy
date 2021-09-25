@@ -31,6 +31,7 @@ import {
 import ButtonComponent from "../Components/ButtonComponent";
 import ModalComponent from "../Components/ModalComponent";
 import PaginateComponent from "../Components/PaginateComponent";
+import { ContactsOutlined } from "@material-ui/icons";
 
 // export default function ProductsPage() {
 //   // const [products, setProducts] = useState([]);
@@ -47,6 +48,11 @@ const useStyles = makeStyles({
 });
 
 export default function ProductsPage() {
+  useEffect(() => {
+    dispatch(fetchProducts());
+    // dispatch(doInitProducts());
+  }, []);
+
   const { products, isLoading } = useSelector((state) => state.productsReducer);
   const [currentPage, setCurrentPage] = useState(1);
   const [postsPerPage] = useState(4);
@@ -102,15 +108,10 @@ export default function ProductsPage() {
     setProductsView(newProductsArr);
   };
 
-  useEffect(() => {
-    dispatch(fetchProducts());
-    // dispatch(doInitProducts());
-  }, []);
-
   // Get current posts
   const indexOfLastPost = currentPage * postsPerPage;
   const indexOfFirstPost = indexOfLastPost - postsPerPage;
-  const currentPosts = products.slice(indexOfFirstPost, indexOfLastPost);
+  const currentPosts = productsView.slice(indexOfFirstPost, indexOfLastPost);
 
   // Change page
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
@@ -278,7 +279,7 @@ export default function ProductsPage() {
       </div>
       <PaginateComponent
         postsPerPage={postsPerPage}
-        totalPosts={products.length}
+        totalPosts={productsView.length}
         paginate={paginate}
       />
     </div>
