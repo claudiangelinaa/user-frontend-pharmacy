@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import Avatar from "@material-ui/core/Avatar";
+import Swal from "sweetalert2";
 import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import TextField from "@material-ui/core/TextField";
@@ -53,9 +54,12 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function SignIn() {
+  const [showAccount, setShowAccount] = useState(false);
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+  const handleCloseAccount = () => setShowAccount(false);
+  const handleShowAccount = () => setShowAccount(true);
   const classes = useStyles();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -68,8 +72,16 @@ export default function SignIn() {
         email: email,
       })
       .then((res) => {
-        console.log(res);
-        alert(`Berhasil Kirim email`);
+        if (res.data.error) {
+          Swal.fire({
+            icon: "error",
+            title: "Oops...",
+            text: res.data.error,
+          });
+          return;
+        }
+
+        Swal.fire("Good job!", "Email successfully send!", "success");
         handleClose();
       })
       .catch((err) => {
@@ -77,25 +89,82 @@ export default function SignIn() {
       });
   };
 
+  const verifyAccount = () => {
+    axios
+      .post(`${url}/users/verify-account`, {
+        email: email,
+      })
+      .then((res) => {
+        if (res.data.error) {
+          Swal.fire({
+            icon: "error",
+            title: "Oops...",
+            text: res.data.error,
+          });
+          return
+        }
+        Swal.fire("Good job!", "Email successfully send!", "success");
+        handleCloseAccount();
+      })
+      .catch((err) => {
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: err,
+        });
+      });
+  };
+
   const handleLoginClick = (e) => {
     e.preventDefault();
-    console.log("login:", email, password)
-    axios.post(`${url}/users/login`, {email: email, password: password})
-    .then((res)=>{
-      if(res.data.status !== "error") {
-        dispatch(doLogin(res.data))
-        localStorage.setItem('access_token', res.data.token)
-        alert(`Berhasil Login`)
-        history.push("/")
-      } else {
-        alert(res.data.error_message)
-      }
-    })
-    .catch(err=>{
-      console.log(err)
-      alert('Gagal login')
-    })
-  }
+    axios
+      .post(`${url}/users/login`, { email: email, password: password })
+      .then((res) => {
+        if (res.data.errors) {
+          Swal.fire({
+            icon: "error",
+            title: "Oops...",
+            text: res.data.errors,
+          });
+          return;
+        }
+
+        if (res.data.error) {
+          handleShowAccount();
+          return;
+        }
+
+        // if(res.data.status !== "error") {
+        dispatch(doLogin(res.data));
+        localStorage.setItem("access_token", res.data.token);
+        Swal.fire("Good job!", "Login Success!", "success");
+        history.push("/");
+      })
+      .catch((err) => {
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: err,
+        });
+      });
+  };
+
+//     axios.post(`${url}/users/login`, {email: email, password: password})
+//     .then((res)=>{
+//       if(res.data.status !== "error") {
+//         dispatch(doLogin(res.data))
+//         localStorage.setItem('access_token', res.data.token)
+//         alert(`Berhasil Login`)
+//         history.push("/")
+//       } else {
+//         alert(res.data.error_message)
+//       }
+//     })
+//     .catch(err=>{
+//       console.log(err)
+//       alert('Gagal login')
+//     })
+//   }
 
   return (
     <Container component="main" maxWidth="xs">
@@ -107,7 +176,11 @@ export default function SignIn() {
         <Typography component="h1" variant="h5">
           Sign in
         </Typography>
-        <form className={classes.form} noValidate onSubmit={(e)=>handleLoginClick(e)}>
+        <form
+          className={classes.form}
+          noValidate
+          onSubmit={(e) => handleLoginClick(e)}
+        >
           <TextField
             variant="outlined"
             margin="normal"
@@ -191,6 +264,43 @@ export default function SignIn() {
             variant="contained"
             color="primary"
             onClick={forgotPassword}
+          >
+            Send
+          </Button>
+        </Modal.Footer>
+      </Modal>
+
+      <Modal
+        show={showAccount}
+        onHide={handleCloseAccount}
+        backdrop="static"
+        keyboard={false}
+      >
+        <Modal.Header closeButton>
+          <Modal.Title>Verify Account</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <p>You have to verify your account first before you can login</p>
+          <input
+            type="text"
+            placeholder="Email Address"
+            style={{ padding: 10, borderRadius: 10, outline: "none" }}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+        </Modal.Body>
+        <Modal.Footer>
+          <Button
+            variant="contained"
+            color="secondary"
+            onClick={handleCloseAccount}
+          >
+            Close
+          </Button>
+          <Button
+            style={{ marginLeft: 10 }}
+            variant="contained"
+            color="primary"
+            onClick={verifyAccount}
           >
             Send
           </Button>

@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { url } from "../helpers/urlConfig";
 import axios from "axios";
 import "../Styles/ResetPassword.css";
+import Swal from "sweetalert2";
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -37,7 +38,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function ResetPassword() {
+export default function Verification() {
   const history = useHistory();
   const search = window.location.search;
   const params = new URLSearchParams(search);
@@ -46,7 +47,7 @@ export default function ResetPassword() {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
-  function updatePassword() {
+  function verifyAccount() {
     const data = {
       token: token,
       password: password,
@@ -54,17 +55,25 @@ export default function ResetPassword() {
     };
 
     axios
-      .post(`${url}/users/reset-password`, data)
+      .post(`${url}/users/verification`, data)
       .then((res) => {
         if (res.data.error) {
-          alert(res.data.error);
+          Swal.fire({
+            icon: "error",
+            title: "Oops...",
+            text: res.data.error,
+          });
           return
         }
-        
+
         history.push("/Login");
       })
       .catch((err) => {
-        alert(err);
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: err,
+        });
       });
   }
 
@@ -74,7 +83,7 @@ export default function ResetPassword() {
         <CssBaseline />
         <div className={classes.paper}>
           <Typography component="h1" variant="h5">
-            Reset Password
+            Verify Account
           </Typography>
           <form className={classes.form} noValidate>
             <TextField
@@ -108,9 +117,9 @@ export default function ResetPassword() {
               variant="contained"
               color="primary"
               className={classes.submit}
-              onClick={updatePassword}
+              onClick={verifyAccount}
             >
-              Reset Password
+              Verify Account
             </Button>
           </form>
         </div>

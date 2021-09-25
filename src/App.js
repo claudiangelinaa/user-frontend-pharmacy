@@ -11,7 +11,9 @@ import Register from "./Pages/Register";
 import ResetPassword from "./Pages/ResetPassword";
 import Checkout from "./Pages/Checkout";
 import UserProfile from "./Pages/UserProfile";
+import Verification from "./Pages/Verification";
 import ProductDetail from "./Pages/ProductDetail";
+
 
 function App() {
   return (
@@ -48,6 +50,9 @@ function App() {
           </Route>
           <Route exact path="/reset-password">
             <ResetPassword />
+          </Route>
+          <Route exact path="/verify-account">
+            <Verification />
           </Route>
           <Route exact path="/UserProfile">
             <UserProfile />
