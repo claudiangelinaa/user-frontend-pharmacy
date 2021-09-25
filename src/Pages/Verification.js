@@ -63,7 +63,7 @@ export default function Verification() {
             title: "Oops...",
             text: res.data.error,
           });
-          return
+          return;
         }
 
         history.push("/Login");

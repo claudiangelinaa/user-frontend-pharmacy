@@ -30,6 +30,7 @@ import {
 } from "@material-ui/core";
 import ButtonComponent from "../Components/ButtonComponent";
 import ModalComponent from "../Components/ModalComponent";
+import PaginateComponent from "../Components/PaginateComponent";
 
 // export default function ProductsPage() {
 //   // const [products, setProducts] = useState([]);
@@ -47,7 +48,8 @@ const useStyles = makeStyles({
 
 export default function ProductsPage() {
   const { products, isLoading } = useSelector((state) => state.productsReducer);
-  //   const products = useSelector((state) => state.productsReducer);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [postsPerPage] = useState(4);
   const [productsView, setProductsView] = useState(products);
   const [productsFilter, setProductsFilter] = useState("");
   const [productsSortBy, setProductsSortBy] = useState("");
@@ -59,31 +61,31 @@ export default function ProductsPage() {
   const history = useHistory();
 
   const handleFilter = () => {
-    if(productsFilter !== "") {
+    if (productsFilter !== "") {
       let newProductsArr = products.filter(
         (product) => product.kategori === productsFilter
       );
-      // console.log(newProductsArr)
       setProductsView(newProductsArr);
     } else {
-      setProductsView(products);    
+      setProductsView(products);
     }
     setDialogFilter(false);
   };
 
   const handleSort = () => {
-    // console.log(productsSortBy)
-    // console.log("products:", products)
     setProductsView(products);
-    // console.log("productsView:", productsView)
     if (productsSortBy == "nama") {
-      setProductsView(productsView.sort((a, b) =>
-        a.nama > b.nama ? 1 : b.nama > a.nama ? -1 : 0
-      ));
+      setProductsView(
+        productsView.sort((a, b) =>
+          a.nama > b.nama ? 1 : b.nama > a.nama ? -1 : 0
+        )
+      );
     } else if (productsSortBy == "harga") {
-      setProductsView(productsView.sort((a, b) =>
-        a.harga > b.harga ? 1 : b.harga > a.harga ? -1 : 0
-      ));
+      setProductsView(
+        productsView.sort((a, b) =>
+          a.harga > b.harga ? 1 : b.harga > a.harga ? -1 : 0
+        )
+      );
     }
     // console.log(productsView.sort((a,b) => (a.nama > b.nama) ? 1 : ((b.nama > a.nama) ? -1 : 0)))
     setDialogSort(false);
@@ -100,26 +102,18 @@ export default function ProductsPage() {
     setProductsView(newProductsArr);
   };
 
-  // function onSubmit(product) {
-  //   console.log(product)
-  //   let data = {
-  //     id: product.id,
-  //     nama: product.nama,
-  //     harga: product.harga,
-  //     foto_produk: product.foto_produk,
-  //     stock: product.stock,
-  //     deskripsi: product.deskripsi,
-  //     quantity: 1,
-  //   };
-  //   let getData = JSON.parse(localStorage.getItem("cart")) || [];
-  //   getData.push(data);
-  //   localStorage.setItem("cart", JSON.stringify(getData));
-  // }
-
   useEffect(() => {
     dispatch(fetchProducts());
     // dispatch(doInitProducts());
   }, []);
+
+  // Get current posts
+  const indexOfLastPost = currentPage * postsPerPage;
+  const indexOfFirstPost = indexOfLastPost - postsPerPage;
+  const currentPosts = products.slice(indexOfFirstPost, indexOfLastPost);
+
+  // Change page
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
   if (isLoading) {
     return (
@@ -129,96 +123,108 @@ export default function ProductsPage() {
     );
   }
 
-    return (
-      <div className="ProductPage">
-        <h1>Products</h1>
+  return (
+    <div className="ProductPage">
+      <h1>Products</h1>
 
-        <div className="SearchBar">
-          <TextField
-            id="standard-textarea"
-            label="Search Products"
-            value={search}
-            onChange={(e) => {
-              handleSearch(e);
+      <div className="SearchBar">
+        <TextField
+          id="standard-textarea"
+          label="Search Products"
+          value={search}
+          onChange={(e) => {
+            handleSearch(e);
+          }}
+          multiline
+        />
+      </div>
+
+      <div>
+        <Button variant="outlined" onClick={() => setDialogFilter(true)}>
+          Filter
+        </Button>
+        <Dialog open={dialogFilter} onClose={() => setDialogFilter(false)}>
+          <DialogTitle>FILTER</DialogTitle>
+          <Select
+            native
+            variant="outlined"
+            value={productsFilter}
+            inputProps={{
+              name: "Category",
+              id: "filled-age-native-simple",
             }}
-            multiline
-          />
-        </div>
+            onChange={(e) => setProductsFilter(e.target.value)}
+          >
+            <option aria-label="CATEGORY" value="">
+              Category
+            </option>
+            <option value={"Generik"}>GENERIK</option>
+            <option value={"Paten"}>PATEN</option>
+          </Select>
 
-        <div>
-          <Button variant="outlined" onClick={() => setDialogFilter(true)}>
-            Filter
-          </Button>
-          <Dialog open={dialogFilter} onClose={() => setDialogFilter(false)}>
-            <DialogTitle>FILTER</DialogTitle>
-            <Select
-              native
-              variant="outlined"
-              value={productsFilter}
-              inputProps={{
-                name: "Category",
-                id: "filled-age-native-simple",
-              }}
-              onChange={(e) => setProductsFilter(e.target.value)}
-            >
-              <option aria-label="CATEGORY" value="">
-                Category
-              </option>
-              <option value={"Generik"}>GENERIK</option>
-              <option value={"Paten"}>PATEN</option>
-            </Select>
+          <DialogActions>
+            <Button onClick={() => setDialogFilter(false)}>Cancel</Button>
+            <Button onClick={() => handleFilter()}>Submit</Button>
+          </DialogActions>
+        </Dialog>
+      </div>
 
-            <DialogActions>
-              <Button onClick={() => setDialogFilter(false)}>Cancel</Button>
-              <Button onClick={() => handleFilter()}>Submit</Button>
-            </DialogActions>
-          </Dialog>
-        </div>
+      <div>
+        <Button variant="outlined" onClick={() => setDialogSort(true)}>
+          Sort
+        </Button>
+        <Dialog open={dialogSort} onClose={() => setDialogSort(false)}>
+          <DialogTitle>SORT</DialogTitle>
+          <Select
+            native
+            variant="outlined"
+            value={productsSortBy}
+            inputProps={{
+              name: "Category",
+              id: "filled-age-native-simple",
+            }}
+            onChange={(e) => setProductsSortBy(e.target.value)}
+          >
+            <option aria-label="SORT BY" value="default">
+              Sort by
+            </option>
+            <option value={"nama"}>NAMA</option>
+            <option value={"harga"}>HARGA</option>
+          </Select>
 
-        <div>
-          <Button variant="outlined" onClick={() => setDialogSort(true)}>
-            Sort
-          </Button>
-          <Dialog open={dialogSort} onClose={() => setDialogSort(false)}>
-            <DialogTitle>SORT</DialogTitle>
-            <Select
-              native
-              variant="outlined"
-              value={productsSortBy}
-              inputProps={{
-                name: "Category",
-                id: "filled-age-native-simple",
-              }}
-              onChange={(e) => setProductsSortBy(e.target.value)}
-            >
-              <option aria-label="SORT BY" value="default">
-                Sort by
-              </option>
-              <option value={"nama"}>NAMA</option>
-              <option value={"harga"}>HARGA</option>
-            </Select>
+          <DialogActions>
+            <Button onClick={() => setDialogSort(false)}>Cancel</Button>
+            <Button onClick={() => handleSort()}>Submit</Button>
+          </DialogActions>
+        </Dialog>
+      </div>
 
-            <DialogActions>
-              <Button onClick={() => setDialogSort(false)}>Cancel</Button>
-              <Button onClick={() => handleSort()}>Submit</Button>
-            </DialogActions>
-          </Dialog>
-        </div>
-
-        <div className="Products">
-        {productsView.map((val) => {
-          return (
-            <CardComponent
-              id={val.id}
-              foto_produk={val.foto_produk}
-              nama={val.nama}
-              deskripsi={val.deskripsi}
-              harga={val.harga}
-              stock={val.stock}
-            />
-          );
-        })}
-
+      <div className="Products">
+        {search
+          ? productsView.map((val) => {
+              return (
+                <CardComponent
+                  id={val.id}
+                  foto_produk={val.foto_produk}
+                  nama={val.nama}
+                  deskripsi={val.deskripsi}
+                  harga={val.harga}
+                  stock={val.stock}
+                />
+              );
+            })
+          : currentPosts.map((val) => {
+              return (
+                <CardComponent
+                  id={val.id}
+                  foto_produk={val.foto_produk}
+                  nama={val.nama}
+                  deskripsi={val.deskripsi}
+                  harga={val.harga}
+                  stock={val.stock}
+                />
+              );
+            })}
         {/* {/* <div style={{ display: "flex", flexDirection: "column" }}>
           {productsView.map((product) => {
             return (
@@ -269,7 +275,12 @@ export default function ProductsPage() {
               </div>
             );
           })} */}
-        </div>
       </div>
-    );
-  }
+      <PaginateComponent
+        postsPerPage={postsPerPage}
+        totalPosts={products.length}
+        paginate={paginate}
+      />
+    </div>
+  );
+}
