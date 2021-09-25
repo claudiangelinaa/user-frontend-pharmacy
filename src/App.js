@@ -12,6 +12,8 @@ import ResetPassword from "./Pages/ResetPassword";
 import Checkout from "./Pages/Checkout";
 import UserProfile from "./Pages/UserProfile";
 import Verification from "./Pages/Verification";
+import ProductDetail from "./Pages/ProductDetail";
+
 
 function App() {
   return (
@@ -25,6 +27,8 @@ function App() {
           </Route>
           <Route exact path="/Products">
             <ProductsPage />
+          </Route>
+          <Route path="/product-detail/:id" component={ProductDetail}>
           </Route>
           <Route exact path="/ProductCustom">
             <ProductCustom />

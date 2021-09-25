@@ -130,6 +130,7 @@ export default function UserProfile() {
     axios.post("http://localhost:5001/users/profile-picture", fd, { headers : { "Authorization" : token } })
     .then(res => {
       console.log("res:", res.data)
+      alert(`Upload photo sukses`)
     })
     .catch(err => console.log(err))
   }
