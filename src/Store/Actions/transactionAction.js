@@ -5,6 +5,7 @@ import {
 } from "../Actions/actionType";
 import axios from "axios";
 import { url } from "../../helpers/urlConfig";
+import jwt_decode from "jwt-decode";
 
 export function fetchTransactions(data) {
   return {
@@ -45,11 +46,11 @@ export function insertTransaction(data) {
 }
 
 export function fetchTransaction() {
-  const ids = 2;
+  const data = jwt_decode(localStorage.getItem("access_token"));
   return (dispatch) => {
     dispatch(loadingTransactions(true));
     axios
-      .get(`${url}/getTransaction/${ids}`)
+      .get(`${url}/getTransaction/${data.id}`)
       .then((res) => {
         let data = res.data.result;
         let result = data.reduce((acc, ele) => {
