@@ -23,7 +23,6 @@ export default function NavbarComponents() {
 
   const handleLogoutClick = () => {
     dispatch(doLogout());
-    history.push("/");
   };
 
   return (
@@ -89,7 +88,7 @@ export default function NavbarComponents() {
                   Hello, {auth.nama}
                 </Typography>
                 <div>
-                  <Link className="LinkRoute" onClick={handleLogoutClick}>
+                  <Link className="LinkRoute" onClick={() => handleLogoutClick()} to="/">
                     Logout
                   </Link>
                 </div>
