@@ -111,7 +111,7 @@ export default function ProductsPage() {
   // Get current posts
   const indexOfLastPost = currentPage * postsPerPage;
   const indexOfFirstPost = indexOfLastPost - postsPerPage;
-  const currentPosts = productsView.slice(indexOfFirstPost, indexOfLastPost);
+  let currentPosts = productsView.slice(indexOfFirstPost, indexOfLastPost);
 
   // Change page
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
@@ -201,8 +201,23 @@ export default function ProductsPage() {
       </div>
 
       <div className="Products">
-        {search
+        {
+          currentPosts.map((val) => {
+            return (
+              <CardComponent
+                id={val.id}
+                foto_produk={val.foto_produk}
+                nama={val.nama}
+                deskripsi={val.deskripsi}
+                harga={val.harga}
+                stock={val.stock}
+              />
+            );
+          })
+        }
+        {/* {search
           ? productsView.map((val) => {
+              console.log("val", val)
               return (
                 <CardComponent
                   id={val.id}
@@ -215,6 +230,7 @@ export default function ProductsPage() {
               );
             })
           : currentPosts.map((val) => {
+              console.log("currentPosts")
               return (
                 <CardComponent
                   id={val.id}
@@ -225,57 +241,7 @@ export default function ProductsPage() {
                   stock={val.stock}
                 />
               );
-            })}
-        {/* {/* <div style={{ display: "flex", flexDirection: "column" }}>
-          {productsView.map((product) => {
-            return (
-              <div className="Products ProductPage " key={product.id}>
-                <Card className={classes.root}>
-                  <CardActionArea>
-                    <CardMedia
-                      className={classes.media}
-                      image={product.foto_produk}
-                    />
-                    <CardContent>
-                      <Typography gutterBottom variant="body2" component="">
-                        {product.nama}
-                      </Typography>
-                      <Typography
-                      variant="body2"
-                      color="textSecondary"
-                      component="p"
-                    >
-                      {product.deskripsi}
-                    </Typography>
-                    </CardContent>
-
-                    <CardContent>
-                      <strong>Rp. {product.harga}</strong>
-                    </CardContent>
-                    <Typography
-                      variant="body2"
-                      color="textSecondary"
-                      component="p"
-                    >
-                      Stok : {product.stock}
-                    </Typography>
-                  <Typography
-                    variant="body2"
-                    color="textSecondary"
-                    component="p">
-                    Kategori : {product.kategori}
-                  </Typography>
-                  </CardActionArea>
-                  <CardActions>
-                    <ButtonComponent
-                      title={"Add To Cart"}
-                      onClick={() => onSubmit(product)}
-                    />
-                  </CardActions>
-                </Card>
-              </div>
-            );
-          })} */}
+            })} */}
       </div>
       <PaginateComponent
         postsPerPage={postsPerPage}

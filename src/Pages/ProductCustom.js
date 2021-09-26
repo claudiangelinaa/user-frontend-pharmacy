@@ -24,6 +24,7 @@ export default function ProductCustom() {
 
     if(selectedFiles.length < 1) {
       alert('Silahkan upload resep terlebih dahulu')
+      return
     }
 
     let fd = new FormData();
