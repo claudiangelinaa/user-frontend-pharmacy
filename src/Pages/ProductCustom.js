@@ -36,6 +36,10 @@ export default function ProductCustom() {
       alert(`Upload resep berhasil. Silahkan tunggu approval admin.`)
       history.push("/History")
     })
+    .catch((err) => {
+      console.log(err)
+      alert(`Upload resep gagal. Silahkan coba beberapa saat lagi.`)
+    })
   }
 
   return (
