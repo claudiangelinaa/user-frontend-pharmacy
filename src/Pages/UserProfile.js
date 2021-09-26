@@ -135,6 +135,10 @@ export default function UserProfile() {
     // console.log("token:", token)
     // console.log("file:", selectedFile)
 
+    if(selectedFile.length < 1) {
+      alert('Silahkan upload gambar terlebih dahulu')
+    }
+
     let fd = new FormData();
     fd.append('images', selectedFile[0])
 
