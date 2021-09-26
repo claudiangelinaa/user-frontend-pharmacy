@@ -121,7 +121,7 @@ export default function UserProfile() {
   const [gender, setGender] = useState("");
   const [umur, setUmur] = useState(0);
   const [profilePicture, setProfilePicture] = useState("");
-  const [selectedFile, setSelectedFile] = useState(null);
+  const [selectedFile, setSelectedFile] = useState([]);
   const [dialogUpload, setDialogUpload] = useState(false);
   
   const handleEditPhoto = (e) =>{
@@ -137,6 +137,7 @@ export default function UserProfile() {
 
     if(selectedFile.length < 1) {
       alert('Silahkan upload gambar terlebih dahulu')
+      return
     }
 
     let fd = new FormData();

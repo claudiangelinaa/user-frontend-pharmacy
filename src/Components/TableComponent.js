@@ -21,6 +21,7 @@ export default function TableComponent(props) {
 
     if(selectedFiles.length < 1) {
       alert('Silahkan upload bukti bayar terlebih dahulu')
+      return
     }
 
     let fd = new FormData();
