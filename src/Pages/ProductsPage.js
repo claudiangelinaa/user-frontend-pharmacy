@@ -111,7 +111,10 @@ export default function ProductsPage() {
   // Get current posts
   const indexOfLastPost = currentPage * postsPerPage;
   const indexOfFirstPost = indexOfLastPost - postsPerPage;
-  const currentPosts = productsView.slice(indexOfFirstPost, indexOfLastPost);
+  let currentPosts = products.slice(indexOfFirstPost, indexOfLastPost);
+  if(productsView.length > 0) {
+    currentPosts = productsView.slice(indexOfFirstPost, indexOfLastPost);
+  }
 
   // Change page
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
