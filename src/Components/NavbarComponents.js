@@ -47,11 +47,18 @@ export default function NavbarComponents() {
                 </Link>
               </NavDropdown.Item>
             </NavDropdown>
-            <Nav.Link>
-              <Link className="LinkRoute" to="/History">
-                History
-              </Link>
-            </Nav.Link>
+            <NavDropdown title="History" id="navbarScrollingDropdown">
+              <NavDropdown.Item>              
+                <Link className="LinkRoute" to="/History">
+                  Obat Jadi
+                </Link>
+              </NavDropdown.Item>
+              <NavDropdown.Item>              
+                <Link className="LinkRoute" to="/RacikHistory">
+                  Obat Racik
+                </Link>
+              </NavDropdown.Item>
+            </NavDropdown>
             {auth.isLogin ? (
               <NavDropdown title="My Profile" id="navbarScrollingDropdown">
                 <NavDropdown.Item>

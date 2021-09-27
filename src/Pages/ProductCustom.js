@@ -35,7 +35,7 @@ export default function ProductCustom() {
     .then((res) => {
       console.log(res.data)
       alert(`Upload resep berhasil. Silahkan tunggu approval admin.`)
-      history.push("/History")
+      history.push("/RacikHistory")
     })
     .catch((err) => {
       console.log(err)

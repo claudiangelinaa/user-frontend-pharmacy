@@ -13,6 +13,7 @@ import Checkout from "./Pages/Checkout";
 import UserProfile from "./Pages/UserProfile";
 import Verification from "./Pages/Verification";
 import ProductDetail from "./Pages/ProductDetail";
+import RacikHistory from "./Pages/RacikHistory";
 
 
 function App() {
@@ -35,6 +36,9 @@ function App() {
           </Route>
           <Route exact path="/History">
             <History />
+          </Route>
+          <Route exact path="/RacikHistory">
+            <RacikHistory />
           </Route>
           <Route exact path="/Login">
             <Login />
