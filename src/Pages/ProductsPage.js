@@ -112,6 +112,8 @@ export default function ProductsPage() {
   const indexOfLastPost = currentPage * postsPerPage;
   const indexOfFirstPost = indexOfLastPost - postsPerPage;
   let currentPosts = products.slice(indexOfFirstPost, indexOfLastPost);
+  // console.log("products:", products)
+  // console.log("productsView:", productsView)
   if(productsView.length > 0) {
     currentPosts = productsView.slice(indexOfFirstPost, indexOfLastPost);
   }
@@ -248,7 +250,7 @@ export default function ProductsPage() {
       </div>
       <PaginateComponent
         postsPerPage={postsPerPage}
-        totalPosts={productsView.length}
+        totalPosts={productsView.length > 0 ? productsView.length : products.length}
         paginate={paginate}
       />
     </div>
