@@ -61,7 +61,8 @@ export default function TableComponent(props) {
         <thead>
           <tr>
             <th>Transaksi ID</th>
-            <th>Nama Produk</th>
+            { props.resep_image ? <th>Foto Resep</th> : null }
+            <th>Nama</th>
             <th>Quantity</th>
             <th>Tanggal</th>
             <th>Total</th>
@@ -72,15 +73,16 @@ export default function TableComponent(props) {
         <tbody>
           <tr>
             <td>{props.id}</td>
+            { props.resep_image ? <td><img src={props.resep_image} style={{ width: "100px", height:"100px" }} /></td> : null }
             <td>{props.nama}</td>
             <td>{props.quantity}</td>
             <td>{props.tanggal}</td>
             <td>{props.total}</td>
             <td>
               <div
-                className={props.status === "0" ? "waitPayment" : "donePayment"}
+                className={props.status === "4" ? "donePayment" : "waitPayment"}
               >
-                {props.status === "0" ? "Waiting for payment" : "Done Payment"}
+                {props.status === "0" ? "PENDING" : props.status === "1" ? "ORDER PROCESSED" : props.status === "2" ? "ORDER REJECTED" : props.status === "3" ? "WAITING FOR PAYMENT" : "DONE PAYMENT"}
               </div>
             </td>
             <td>
@@ -88,7 +90,7 @@ export default function TableComponent(props) {
                 // className={props.status === "0" ? "waitPayment" : "donePayment"}
               >
                 {
-                  props.status === "0" ? 
+                  props.status === "3" ? 
                     (
                       <Button size="small" onClick={()=>setDialogUpload(true)}>Upload Bukti Bayar</Button>
                     ) 
