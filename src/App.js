@@ -12,6 +12,9 @@ import ResetPassword from "./Pages/ResetPassword";
 import Checkout from "./Pages/Checkout";
 import UserProfile from "./Pages/UserProfile";
 import Verification from "./Pages/Verification";
+import ProductDetail from "./Pages/ProductDetail";
+import RacikHistory from "./Pages/RacikHistory";
+
 
 function App() {
   return (
@@ -26,11 +29,16 @@ function App() {
           <Route exact path="/Products">
             <ProductsPage />
           </Route>
+          <Route path="/product-detail/:id" component={ProductDetail}>
+          </Route>
           <Route exact path="/ProductCustom">
             <ProductCustom />
           </Route>
           <Route exact path="/History">
             <History />
+          </Route>
+          <Route exact path="/RacikHistory">
+            <RacikHistory />
           </Route>
           <Route exact path="/Login">
             <Login />

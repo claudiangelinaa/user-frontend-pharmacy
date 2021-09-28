@@ -23,7 +23,6 @@ export default function NavbarComponents() {
 
   const handleLogoutClick = () => {
     dispatch(doLogout());
-    history.push("/");
   };
 
   return (
@@ -48,11 +47,18 @@ export default function NavbarComponents() {
                 </Link>
               </NavDropdown.Item>
             </NavDropdown>
-            <Nav.Link>
-              <Link className="LinkRoute" to="/History">
-                History Transaction
-              </Link>
-            </Nav.Link>
+            <NavDropdown title="History" id="navbarScrollingDropdown">
+              <NavDropdown.Item>              
+                <Link className="LinkRoute" to="/History">
+                  Obat Jadi
+                </Link>
+              </NavDropdown.Item>
+              <NavDropdown.Item>              
+                <Link className="LinkRoute" to="/RacikHistory">
+                  Obat Racik
+                </Link>
+              </NavDropdown.Item>
+            </NavDropdown>
             {auth.isLogin ? (
               <NavDropdown title="My Profile" id="navbarScrollingDropdown">
                 <NavDropdown.Item>
@@ -92,7 +98,7 @@ export default function NavbarComponents() {
                   Hello, {auth.nama}
                 </Typography>
                 <div>
-                  <Link className="LinkRoute" onClick={handleLogoutClick}>
+                  <Link className="LinkRoute" onClick={() => handleLogoutClick()} to="/">
                     Logout
                   </Link>
                 </div>

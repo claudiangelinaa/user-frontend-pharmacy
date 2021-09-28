@@ -60,6 +60,8 @@ export default function Checkout() {
   const [activeStep, setActiveStep] = React.useState(0);
   const checkoutData = JSON.parse(localStorage.getItem("checkout") || "[]");
   const decodedToken = jwt_decode(localStorage.getItem("access_token"));
+  const auth = useSelector(state => state.authReducer);
+
   const totalPrice = checkoutData.reduce(
     (sum, i) => (sum += i.harga * i.quantity),
     0
@@ -94,7 +96,10 @@ export default function Checkout() {
       let data = {
         total: totalPrice,
         alamat: address,
-        user_id: decodedToken.id,
+// <<<<<<< bugfix/cartnotif-address-decreasestock
+//         user_id: decodedToken.id,
+// =======
+        user_id: auth.id,
         quantity: quantity,
         obat_jadi_id: obatId,
       };

@@ -117,7 +117,6 @@ export default function SignIn() {
 
   const handleLoginClick = (e) => {
     e.preventDefault();
-    console.log("login:", email, password);
     axios
       .post(`${url}/users/login`, { email: email, password: password })
       .then((res) => {
@@ -149,6 +148,23 @@ export default function SignIn() {
         });
       });
   };
+
+//     axios.post(`${url}/users/login`, {email: email, password: password})
+//     .then((res)=>{
+//       if(res.data.status !== "error") {
+//         dispatch(doLogin(res.data))
+//         localStorage.setItem('access_token', res.data.token)
+//         alert(`Berhasil Login`)
+//         history.push("/")
+//       } else {
+//         alert(res.data.error_message)
+//       }
+//     })
+//     .catch(err=>{
+//       console.log(err)
+//       alert('Gagal login')
+//     })
+//   }
 
   return (
     <Container component="main" maxWidth="xs">
