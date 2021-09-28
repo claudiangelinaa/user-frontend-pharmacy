@@ -47,6 +47,7 @@ export function insertTransaction(data) {
 
 export function fetchTransaction() {
   const data = jwt_decode(localStorage.getItem("access_token"));
+
   return (dispatch) => {
     dispatch(loadingTransactions(true));
     axios

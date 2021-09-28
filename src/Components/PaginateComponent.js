@@ -1,5 +1,5 @@
 import React from "react";
-import "../Styles/Components/Paginate.css"
+import "../Styles/Components/Paginate.css";
 
 export default function PaginateComponent({
   totalPosts,

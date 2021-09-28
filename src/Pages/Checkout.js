@@ -21,6 +21,8 @@ import { useHistory } from "react-router";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { insertTransaction } from "../Store/Actions/transactionAction";
+import jwt_decode from "jwt-decode";
+import Swal from "sweetalert2";
 
 function Copyright() {
   return (
@@ -57,7 +59,9 @@ export default function Checkout() {
   const history = useHistory();
   const [activeStep, setActiveStep] = React.useState(0);
   const checkoutData = JSON.parse(localStorage.getItem("checkout") || "[]");
+  const decodedToken = jwt_decode(localStorage.getItem("access_token"));
   const auth = useSelector(state => state.authReducer);
+
   const totalPrice = checkoutData.reduce(
     (sum, i) => (sum += i.harga * i.quantity),
     0
@@ -78,9 +82,23 @@ export default function Checkout() {
     }
 
     if (activeStep === 1) {
+      if (address === "" || !address) {
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: "You have to input your shipping address first",
+        });
+        return;
+      }
+
+      console.log(address);
+
       let data = {
         total: totalPrice,
         alamat: address,
+// <<<<<<< bugfix/cartnotif-address-decreasestock
+//         user_id: decodedToken.id,
+// =======
         user_id: auth.id,
         quantity: quantity,
         obat_jadi_id: obatId,

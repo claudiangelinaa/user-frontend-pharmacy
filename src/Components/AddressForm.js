@@ -94,15 +94,27 @@ export default function AddressForm() {
             variant="standard"
           />
         </Grid> */}
+        {address === "" ? (
         <Grid item xs={12}>
           <FormControlLabel
             control={
               <Checkbox color="secondary" name="saveAddress" value="yes" />
             }
-            label="Use this address for payment details"
+            label="Check this to input your address in Checkout"
             onClick={sendAddress}
           />
         </Grid>
+        ) : (
+          <Grid item xs={12}>
+          <FormControlLabel
+            control={
+              <Checkbox color="secondary" name="saveAddress" value="yes" />
+            }
+            label="Check this to input your address in Checkout"
+            onClick={sendAddress}
+          />
+        </Grid>
+        )}
       </Grid>
     </React.Fragment>
   );

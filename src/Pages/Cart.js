@@ -4,6 +4,7 @@ import ButtonComponent from "../Components/ButtonComponent";
 import "../Styles/Cart.css";
 import { convertToRupiah } from "../helpers/convertToRupiah";
 import { useHistory } from "react-router";
+import Swal from "sweetalert2";
 
 export default function Cart() {
   const history = useHistory();
@@ -13,7 +14,7 @@ export default function Cart() {
 
   function CheckOut() {
     localStorage.setItem("checkout", JSON.stringify(cartProduct));
-    localStorage.removeItem("cart");
+    localStorage.setItem("cart", JSON.stringify([]));
     history.push("/Checkout");
   }
 
@@ -25,7 +26,11 @@ export default function Cart() {
     const qty = (cartProduct[index].quantity = Number(quantity));
 
     if (qty > product.stock) {
-      alert("Quantity melebihi stock yang ada!");
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "Quantity must be less than stock",
+      });
     } else {
       cartProduct[index].quantity = Number(quantity);
       setcartProduct(cartProduct);
