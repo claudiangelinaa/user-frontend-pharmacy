@@ -6,6 +6,7 @@ import ListItemText from "@mui/material/ListItemText";
 import Grid from "@mui/material/Grid";
 import { convertToRupiah } from "../helpers/convertToRupiah";
 import { useHistory } from "react-router";
+import jwt_decode from "jwt-decode";
 
 const payments = [
   { name: "Card type", detail: "Visa" },
@@ -19,6 +20,7 @@ export default function Review() {
   const [cartTotalPrice, setcartTotalPrice] = useState(null);
   const [checkOutProduct, setcheckOutProduct] = useState([]);
   const checkoutData = JSON.parse(localStorage.getItem("checkout") || "[]");
+  const decodedToken = jwt_decode(localStorage.getItem("access_token"));
   const address = JSON.parse(localStorage.getItem("address"));
 
   function totalPriceProduct() {
@@ -62,7 +64,7 @@ export default function Review() {
           <Typography variant="h6" gutterBottom sx={{ mt: 2 }}>
             Shipping
           </Typography>
-          <Typography gutterBottom>Haryo Novianto</Typography>
+          <Typography gutterBottom>{decodedToken.nama}</Typography>
           <Typography gutterBottom>{address}</Typography>
         </Grid>
         {/* <Grid item container direction="column" xs={12} sm={6}>

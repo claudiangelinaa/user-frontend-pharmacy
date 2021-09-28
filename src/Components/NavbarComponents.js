@@ -6,7 +6,6 @@ import NotificationsNoneOutlinedIcon from "@material-ui/icons/NotificationsNoneO
 import Badge from "@material-ui/core/Badge";
 import "../Styles/Components/Navbar.css";
 import { Link, useHistory } from "react-router-dom";
-import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { checkLogin, doLogout } from "../Store/Actions/authAction";
 import Typography from "@mui/material/Typography";
@@ -16,10 +15,11 @@ export default function NavbarComponents() {
   const auth = useSelector((state) => state.authReducer);
   const history = useHistory();
   const token = localStorage.getItem("access_token");
+  const cart = JSON.parse(localStorage.getItem("cart"));
 
   useEffect(() => {
     dispatch(checkLogin());
-  }, []);
+  }, [cart]);
 
   const handleLogoutClick = () => {
     dispatch(doLogout());
@@ -50,7 +50,7 @@ export default function NavbarComponents() {
             </NavDropdown>
             <Nav.Link>
               <Link className="LinkRoute" to="/History">
-                History
+                History Transaction
               </Link>
             </Nav.Link>
             {auth.isLogin ? (
@@ -61,7 +61,10 @@ export default function NavbarComponents() {
                   </Link>
                 </NavDropdown.Item>
                 <NavDropdown.Item>
-                  <Link className="LinkRoute" to={`/reset-password?token=${token}`}>
+                  <Link
+                    className="LinkRoute"
+                    to={`/reset-password?token=${token}`}
+                  >
                     Change Password
                   </Link>
                 </NavDropdown.Item>
@@ -103,7 +106,7 @@ export default function NavbarComponents() {
         </div>
 
         <div style={{ marginRight: 20 }}>
-          <Badge badgeContent={4} color="error">
+          <Badge badgeContent={!cart ? 0 : cart.length} color="error">
             <Link className="LinkRoute" to="/Cart">
               <ShoppingCartOutlinedIcon />
             </Link>

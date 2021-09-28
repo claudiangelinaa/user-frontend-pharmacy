@@ -1,7 +1,7 @@
 import {
   ADD_TRANSACTION,
   LOADING_TRANSACTION,
-  FETCH_TRANSACTION,
+  FETCH_TRANSACTION
 } from "../Actions/actionType";
 
 const initialState = {
