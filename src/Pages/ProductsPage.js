@@ -164,8 +164,13 @@ export default function ProductsPage() {
             <option aria-label="CATEGORY" value="">
               Category
             </option>
-            <option value={"Generik"}>GENERIK</option>
-            <option value={"Paten"}>PATEN</option>
+            <option value={"BATUK DAN FLU"}>BATUK DAN FLU</option>
+            <option value={"DEMAM"}>DEMAM</option>
+            <option value={"ANTI NYERI"}>ANTI NYERI</option>
+            <option value={"ANTI INFLAMASI"}>ANTI INFLAMASI</option>
+            <option value={"ALERGI"}>ALERGI</option>
+            <option value={"HIPERTENSI"}>HIPERTENSI</option>
+            <option value={"SALURAN KEMIH"}>SALURAN KEMIH</option>
           </Select>
 
           <DialogActions>
