@@ -12,6 +12,7 @@ const initialState = {
   addProducts: [],
   initProducts: [],
   isLoading: false,
+  category: []
 };
 
 export default (state = initialState, action) => {
@@ -56,6 +57,12 @@ export default (state = initialState, action) => {
       ...state,
       initProducts: action.payload
       }
+  
+  case 'FETCH_CATEGORY':
+    return {
+      ...state,
+      category: action.payload
+    }
 
     default:
       return {
