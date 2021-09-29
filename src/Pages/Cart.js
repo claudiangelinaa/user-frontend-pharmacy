@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from "react";
 import ButtonComponent from "../Components/ButtonComponent";
 import "../Styles/Cart.css";
@@ -36,7 +35,7 @@ export default function Cart() {
       setcartProduct(cartProduct);
       localStorage.setItem("cart", JSON.stringify(cartProduct));
     }
-    filterProduct()
+    filterProduct();
   }
 
   function removeItems(id) {
@@ -46,10 +45,6 @@ export default function Cart() {
 
     let sums = cartData.reduce((sum, i) => (sum += i.harga * i.quantity), 0);
 
-    // let eachPrice = cartData.reduce(
-    //   (sum, i) => (sum = i.harga * i.quantity),
-    //   0
-    // );
     setcartTotalPrice(sums);
     setcartProduct(cartData);
     filterProduct();
@@ -62,7 +57,6 @@ export default function Cart() {
       (ele, ind) => ind === cart.findIndex((elem) => elem.id === ele.id)
     );
     let sums = results.reduce((sum, i) => (sum += i.harga * i.quantity), 0);
-    // let eachPrice = results.reduce((sum, i) => (sum = i.harga * i.quantity), 0);
     setcartTotalPrice(sums);
     setcartProduct(results);
   }

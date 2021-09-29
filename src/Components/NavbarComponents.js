@@ -19,7 +19,7 @@ export default function NavbarComponents() {
 
   useEffect(() => {
     dispatch(checkLogin());
-  }, [cart]);
+  }, []);
 
   const handleLogoutClick = () => {
     dispatch(doLogout());
@@ -48,12 +48,12 @@ export default function NavbarComponents() {
               </NavDropdown.Item>
             </NavDropdown>
             <NavDropdown title="History" id="navbarScrollingDropdown">
-              <NavDropdown.Item>              
+              <NavDropdown.Item>
                 <Link className="LinkRoute" to="/History">
                   Obat Jadi
                 </Link>
               </NavDropdown.Item>
-              <NavDropdown.Item>              
+              <NavDropdown.Item>
                 <Link className="LinkRoute" to="/RacikHistory">
                   Obat Racik
                 </Link>
@@ -98,7 +98,11 @@ export default function NavbarComponents() {
                   Hello, {auth.nama}
                 </Typography>
                 <div>
-                  <Link className="LinkRoute" onClick={() => handleLogoutClick()} to="/">
+                  <Link
+                    className="LinkRoute"
+                    onClick={() => handleLogoutClick()}
+                    to="/"
+                  >
                     Logout
                   </Link>
                 </div>

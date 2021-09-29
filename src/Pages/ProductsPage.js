@@ -105,7 +105,6 @@ export default function ProductsPage() {
     let newProductsArr = products.filter((product) =>
       product.nama.toLowerCase().includes(searchValue.toLowerCase())
     );
-    // console.log(newProductsArr)
     setProductsView(newProductsArr);
   };
 
@@ -113,8 +112,6 @@ export default function ProductsPage() {
   const indexOfLastPost = currentPage * postsPerPage;
   const indexOfFirstPost = indexOfLastPost - postsPerPage;
   let currentPosts = products.slice(indexOfFirstPost, indexOfLastPost);
-  // console.log("products:", products)
-  // console.log("productsView:", productsView)
   if(productsView.length > 0) {
     currentPosts = productsView.slice(indexOfFirstPost, indexOfLastPost);
   }
@@ -165,18 +162,19 @@ export default function ProductsPage() {
             <option aria-label="CATEGORY" value="">
               Category
             </option>
-            {category.map((value)=>{
+            {/* {category.map((value)=>{
               return(
+                <>
                 <option value={value}>{value}</option>
-                // <option value={"DEMAM"}>DEMAM</option>
-                // <option value={"ANTI NYERI"}>ANTI NYERI</option>
-                // <option value={"ANTI INFLAMASI"}>ANTI INFLAMASI</option>
-                // <option value={"ALERGI"}>ALERGI</option>
-                // <option value={"HIPERTENSI"}>HIPERTENSI</option>
-                // <option value={"SALURAN KEMIH"}>SALURAN KEMIH</option>
-
+                <option value={"DEMAM"}>DEMAM</option>
+                <option value={"ANTI NYERI"}>ANTI NYERI</option>
+                <option value={"ANTI INFLAMASI"}>ANTI INFLAMASI</option>
+                <option value={"ALERGI"}>ALERGI</option>
+                <option value={"HIPERTENSI"}>HIPERTENSI</option>
+                <option value={"SALURAN KEMIH"}>SALURAN KEMIH</option>
+                </>
               )
-            })}
+            })} */}
           </Select>
 
           <DialogActions>

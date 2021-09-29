@@ -60,7 +60,7 @@ export default function Checkout() {
   const [activeStep, setActiveStep] = React.useState(0);
   const checkoutData = JSON.parse(localStorage.getItem("checkout") || "[]");
   const decodedToken = jwt_decode(localStorage.getItem("access_token"));
-  const auth = useSelector(state => state.authReducer);
+  const auth = useSelector((state) => state.authReducer);
 
   const totalPrice = checkoutData.reduce(
     (sum, i) => (sum += i.harga * i.quantity),
@@ -96,9 +96,9 @@ export default function Checkout() {
       let data = {
         total: totalPrice,
         alamat: address,
-// <<<<<<< bugfix/cartnotif-address-decreasestock
-//         user_id: decodedToken.id,
-// =======
+        // <<<<<<< bugfix/cartnotif-address-decreasestock
+        //         user_id: decodedToken.id,
+        // =======
         user_id: auth.id,
         quantity: quantity,
         obat_jadi_id: obatId,
@@ -106,7 +106,11 @@ export default function Checkout() {
 
       dispatch(insertTransaction(data));
 
-      history.push("/History");
+      Swal.fire("Good job!", "Transaction is successful!", "success");
+      setTimeout(() => {
+        history.push("/");
+      }, 2000);
+
       localStorage.removeItem("checkout");
       localStorage.removeItem("address");
     }
