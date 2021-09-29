@@ -13,7 +13,7 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import { InputLabel, MenuItem, Select } from '@material-ui/core';
-import { doRegister } from '../Store/Actions/authAction';
+// import { doRegister } from '../Store/Actions/authAction';
 import { useDispatch } from 'react-redux';
 import axios from 'axios'
 import { useHistory } from 'react-router';
@@ -78,10 +78,10 @@ export default function SignUp() {
     .then(res => {
       console.log(res.data)
       if(res.data.status !== "error") {
-        dispatch(doRegister(res.data));
-        alert(`Berhasil Register`)
-        localStorage.setItem('access_token', res.data.token)
-        history.push("/")
+        // dispatch(doRegister(res.data));
+        alert(`Berhasil Register. Silakan login!`)
+        // localStorage.setItem('access_token', res.data.token)
+        history.push("/login")
       } else {
         alert("Gagal register")
       }

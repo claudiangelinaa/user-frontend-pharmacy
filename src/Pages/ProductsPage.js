@@ -3,7 +3,7 @@ import CardComponent from "../Components/CardComponent";
 import SearchBarComponent from "../Components/SearchBarComponent";
 import "../Styles/Products.css";
 import { useSelector } from "react-redux";
-import { fetchProducts } from "../Store/Actions/productsAction";
+import { fetchCategory, fetchProducts } from "../Store/Actions/productsAction";
 import LoadingComponent from "../Components/LoadingComponent";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router";
@@ -50,10 +50,11 @@ const useStyles = makeStyles({
 export default function ProductsPage() {
   useEffect(() => {
     dispatch(fetchProducts());
+    dispatch(fetchCategory())
     // dispatch(doInitProducts());
   }, []);
 
-  const { products, isLoading } = useSelector((state) => state.productsReducer);
+  const { products, isLoading, category } = useSelector((state) => state.productsReducer);
   const [currentPage, setCurrentPage] = useState(1);
   const [postsPerPage] = useState(4);
   const [productsView, setProductsView] = useState(products);
@@ -164,8 +165,18 @@ export default function ProductsPage() {
             <option aria-label="CATEGORY" value="">
               Category
             </option>
-            <option value={"Generik"}>GENERIK</option>
-            <option value={"Paten"}>PATEN</option>
+            {category.map((value)=>{
+              return(
+                <option value={value}>{value}</option>
+                // <option value={"DEMAM"}>DEMAM</option>
+                // <option value={"ANTI NYERI"}>ANTI NYERI</option>
+                // <option value={"ANTI INFLAMASI"}>ANTI INFLAMASI</option>
+                // <option value={"ALERGI"}>ALERGI</option>
+                // <option value={"HIPERTENSI"}>HIPERTENSI</option>
+                // <option value={"SALURAN KEMIH"}>SALURAN KEMIH</option>
+
+              )
+            })}
           </Select>
 
           <DialogActions>

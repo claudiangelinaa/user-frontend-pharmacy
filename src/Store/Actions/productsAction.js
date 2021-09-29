@@ -75,3 +75,22 @@ export function fetchProduct(id) {
       })
   }
 }
+
+export function fetchCategory() {
+  return (dispatch) => {
+    dispatch(loadingProducts(true));
+
+    axios
+      .get(`${url}/obatjadi/category`)
+      .then((res) => {
+        dispatch({
+          type: "FETCH_CATEGORY",
+          payload: res.data.data,
+        })
+      })
+
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+}

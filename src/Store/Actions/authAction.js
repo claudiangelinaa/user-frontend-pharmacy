@@ -40,30 +40,30 @@ export function doLogin(data) {
   }
 }
 
-export function doRegister(data) {
-  return (dispatch) => {
-    axios
-      .post(`${url}/users/register`, data)
-      .then((res) => {
-        console.log("register:", res);
-        dispatch({
-          type: "LOGIN",
-          payload: {
-            ...res.data,
-            isLogin: true,
-          },
-        });
-      })
-      .catch((err) => console.log(err));
-    dispatch({
-      type: 'LOGIN',
-      payload: {
-        ...data,
-        isLogin: true,
-      }
-    })
-  }
-}
+// export function doRegister(data) {
+//   return (dispatch) => {
+//     axios
+//       .post(`${url}/users/register`, data)
+//       .then((res) => {
+//         console.log("register:", res);
+//         dispatch({
+//           type: "LOGIN",
+//           payload: {
+//             ...res.data,
+//             isLogin: true,
+//           },
+//         });
+//       })
+//       .catch((err) => console.log(err));
+//     dispatch({
+//       type: 'LOGIN',
+//       payload: {
+//         ...data,
+//         isLogin: true,
+//       }
+//     })
+//   }
+// }
 
 export function doLogout() {
   return async (dispatch) => {
