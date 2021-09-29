@@ -91,7 +91,7 @@ export function doLogout() {
 
 export function checkLogin() {
   return async (dispatch) => {
-    const token = localStorage.getItem("access_token");
+    const token = await localStorage.getItem("access_token");
     // console.log("[checkLogin] token:", token);
     if (token) {
       const { data } = await axios.get(`${url}/users/check-token`, {
