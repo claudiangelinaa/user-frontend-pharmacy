@@ -83,7 +83,7 @@ export default function SignUp() {
         // localStorage.setItem('access_token', res.data.token)
         history.push("/login")
       } else {
-        alert("Gagal register")
+        alert(res.data.errors)
       }
     })
     .catch(err=>{
