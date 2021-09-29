@@ -6,28 +6,28 @@ import { fetchTransaction } from "../Store/Actions/transactionAction";
 import LoadingComponent from "../Components/LoadingComponent";
 import { convertToRupiah } from "../helpers/convertToRupiah";
 import "../Styles/History.css";
-import axios from 'axios';
+import axios from "axios";
 import { url } from "../helpers/urlConfig";
 
 export default function RacikHistory() {
   const dispatch = useDispatch();
   const [transactionList, setTransactionList] = useState([]);
-  const auth = useSelector(state => state.authReducer);
+  const auth = useSelector((state) => state.authReducer);
   const { historyTransaction, isLoading } = useSelector(
     (state) => state.transactionReducer
   );
 
   useEffect(() => {
     dispatch(fetchTransaction());
-    console.log("auth:", auth)
-    axios.get(`${url}/getRacikTransaction/${auth.id}`)
-    .then((res) => {
-      setTransactionList(res.data.data)
-      console.log("getRacik:", res.data.data)
-    })
-    .catch((err) => {
-      console.log(err)
-    })
+    axios
+      .get(`${url}/getRacikTransaction/${auth.id}`)
+      .then((res) => {
+        setTransactionList(res.data.data);
+        console.log("getRacik:", res.data.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }, []);
 
   if (isLoading) {
@@ -60,7 +60,10 @@ export default function RacikHistory() {
                 return (
                   <>
                     <ul>
-                      <li style={{ listStyle: "none" }}>{val.komposisi_qty}{val.satuan_komposisi}</li>
+                      <li style={{ listStyle: "none" }}>
+                        {val.komposisi_qty}
+                        {val.satuan_komposisi}
+                      </li>
                     </ul>
                   </>
                 );
